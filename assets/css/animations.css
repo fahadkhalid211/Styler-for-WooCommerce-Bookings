@@ -1,0 +1,90 @@
+/**
+ * Animations and Transitions for Styler for WooCommerce Bookings.
+ */
+
+/* Shimmer Loading Animation */
+@keyframes wcbs-shimmer {
+	0% {
+		background-position: -200% 0;
+	}
+	100% {
+		background-position: 200% 0;
+	}
+}
+
+.wcbs-skeleton {
+	background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+	background-size: 200% 100%;
+	animation: wcbs-shimmer 1.5s infinite;
+	border-radius: var(--wcbs-radius, 8px);
+}
+
+/* Slide in from right (Drawer) */
+@keyframes wcbs-slide-in-right {
+	from {
+		transform: translateX(100%);
+		opacity: 0;
+	}
+	to {
+		transform: translateX(0);
+		opacity: 1;
+	}
+}
+
+/* Slide in from left (Drawer) */
+@keyframes wcbs-slide-in-left {
+	from {
+		transform: translateX(-100%);
+		opacity: 0;
+	}
+	to {
+		transform: translateX(0);
+		opacity: 1;
+	}
+}
+
+/* Slide in from bottom (Mobile Bottom Sheet) */
+@keyframes wcbs-slide-in-up {
+	from {
+		transform: translateY(100%);
+		opacity: 0;
+	}
+	to {
+		transform: translateY(0);
+		opacity: 1;
+	}
+}
+
+/* Modal Pop In */
+@keyframes wcbs-pop-in {
+	0% {
+		transform: scale(0.95);
+		opacity: 0;
+	}
+	100% {
+		transform: scale(1);
+		opacity: 1;
+	}
+}
+
+/* Fade in for overlay */
+@keyframes wcbs-fade-in {
+	from { opacity: 0; }
+	to { opacity: 1; }
+}
+
+/* Step slide transitions */
+@keyframes wcbs-step-enter {
+	from {
+		opacity: 0;
+		transform: translateX(15px);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+.wcbs-anim-enter {
+	animation: wcbs-step-enter 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}

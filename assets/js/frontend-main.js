@@ -97,7 +97,7 @@
 						'<span>Choose an available date on the calendar to view available times.</span>' +
 					'</div>' +
 					'<div class="wcbs-slots-holder">' +
-						'<ul class="block-picker wcbs-slots-display wcbs-hidden" style="display:none;"></ul>' +
+						'<ul class="block-picker wcbs-slots-display wcbs-hidden"></ul>' +
 						'<div class="wcbs-slots-empty-notice" style="display:none;"></div>' +
 					'</div>' +
 				'</div>'
@@ -205,7 +205,7 @@
 			var $tabsNav = $container.find('.wcbs-slot-tabs-nav');
 			var $displayList = $holder.find('ul.wcbs-slots-display');
 			if (!$displayList.length) {
-				$displayList = $('<ul class="block-picker wcbs-slots-display wcbs-hidden" style="display:none;"></ul>');
+				$displayList = $('<ul class="block-picker wcbs-slots-display wcbs-hidden"></ul>');
 				$holder.prepend($displayList);
 			}
 			var $emptyNotice = $holder.find('.wcbs-slots-empty-notice');
@@ -215,7 +215,7 @@
 			}
 
 			// Find native time picker element (MUST remain in DOM inside fieldset so WC Bookings AJAX updates work)
-			var $nativePicker = $('fieldset.wc-bookings-date-picker ul.block-picker, .wcbs-split-col-left ul.block-picker, fieldset.wc-bookings-date-picker .wc-bookings-time-block-picker ul, fieldset.wc-bookings-date-picker ul.blocks, form.cart ul.block-picker:not(.wcbs-slots-display)').first();
+			var $nativePicker = $('fieldset.wc-bookings-date-picker ul.block-picker, .wcbs-split-col-left ul.block-picker, fieldset.wc-bookings-date-picker .wc-bookings-time-block-picker ul, fieldset.wc-bookings-date-picker ul.blocks, form.cart ul.block-picker:not(.wcbs-slots-display), ul.block-picker:not(.wcbs-slots-display)').first();
 
 			// Support select-based time pickers if present
 			var $timeSelect = $('select[name="wc_bookings_field_start_date_time"], .wc-bookings-time-picker select');
@@ -229,27 +229,39 @@
 				return;
 			}
 
-			if (!$nativePicker.length) {
-				return;
+			// Check where real slots exist:
+			// 1) Already in $displayList (injected by WC Bookings or AJAX hook)
+			// 2) In $nativePicker
+			// 3) In any other .block-picker
+			var $realSlotsInDisplay = $displayList.find('li:has(a), li a');
+			var $realSlotsInNative = $nativePicker.length ? $nativePicker.find('li:has(a), li a') : $();
+			var $anySlots = $('ul.block-picker').not('.wcbs-slots-display').find('li:has(a), li a');
+
+			if ($realSlotsInNative.length) {
+				var nativeHtml = $nativePicker.html().trim();
+				if ($displayList.data('native-html') !== nativeHtml || !$realSlotsInDisplay.length) {
+					$displayList.data('native-html', nativeHtml);
+					$displayList.html(nativeHtml);
+					$realSlotsInDisplay = $displayList.find('li:has(a), li a');
+				}
+			} else if (!$realSlotsInDisplay.length && $anySlots.length) {
+				var anyHtml = $anySlots.first().closest('ul').html().trim();
+				$displayList.data('native-html', anyHtml);
+				$displayList.html(anyHtml);
+				$realSlotsInDisplay = $displayList.find('li:has(a), li a');
 			}
 
-			var nativeHtml = $nativePicker.html().trim();
-			var $realSlots = $nativePicker.find('li:has(a), li a');
-
-			if ($realSlots.length) {
-				// Real slots exist! Mirror them into display list
+			if ($realSlotsInDisplay.length) {
+				// Real slots exist! Mirror them into display list and reveal
 				$prompt.hide();
 				$emptyNotice.hide();
 				$tabsNav.show();
-				$displayList.removeClass('wcbs-hidden').show();
-
-				if ($displayList.data('native-html') !== nativeHtml) {
-					$displayList.data('native-html', nativeHtml);
-					$displayList.html(nativeHtml);
-					self.enhanceSlots($container, $displayList, $nativePicker);
-				}
-			} else if (nativeHtml !== '') {
-				var lower = $nativePicker.text().toLowerCase();
+				$displayList.removeClass('wcbs-hidden').show().removeAttr('style').css('display', 'grid');
+				self.enhanceSlots($container, $displayList, $nativePicker);
+			} else {
+				// If no real slot anchors yet, check if there's an error/empty notice text
+				var checkText = ($nativePicker.length ? $nativePicker.text() : '') + ' ' + $displayList.text();
+				var lower = checkText.toLowerCase();
 				if (lower.indexOf('no blocks') !== -1 || lower.indexOf('no available') !== -1 || lower.indexOf('fully booked') !== -1) {
 					// Fully booked or no slots for this date
 					$prompt.hide();
@@ -273,11 +285,12 @@
 			}
 
 			if (window.console && console.log) {
+				var nativeSnippet = ($nativePicker.length ? $nativePicker.html().trim().substring(0, 100) : '');
 				console.log('[WCBS Diagnostics] syncTimeSlots:', {
 					nativePickerFound: $nativePicker.length,
-					realSlotsCount: $realSlots.length,
+					realSlotsCount: $realSlotsInDisplay.length,
 					displaySlotsCount: $displayList.find('li').length,
-					nativeSnippet: nativeHtml.substring(0, 100)
+					nativeSnippet: nativeSnippet
 				});
 			}
 
@@ -328,7 +341,6 @@
 					period = 'afternoon';
 					afternoonCount++;
 				} else if (hour >= 17) {
-					period = 'evening';
 					eveningCount++;
 				} else {
 					morningCount++;
@@ -375,7 +387,7 @@
 				$displayList.find('li, a').removeClass('selected');
 				$a.addClass('selected').closest('li').addClass('selected');
 
-				var chosenVal = $a.data('value') || $a.text().trim();
+				var chosenVal = $a.data('value') || $el.data('value') || $el.data('block') || $a.data('block') || $a.text().trim();
 				var chosenText = $a.text().trim();
 
 				// Update live summary card
@@ -398,10 +410,10 @@
 				// Update core time input directly
 				var $timeInput = $('input[name="wc_bookings_field_start_date_time"], input.booking_date_time');
 				if ($timeInput.length) {
-					$timeInput.val(chosenVal).trigger('change');
+					$timeInput.val(chosenVal).trigger('change').trigger('input');
 				}
 
-				// Trigger form change for price calculations
+				// Trigger form change for price calculations & enabling Add to Cart button
 				$('fieldset.wc-bookings-date-picker, #wc-bookings-booking-form, form.cart').trigger('change').trigger('wc_booking_form_changed');
 
 				// Sync calendar links
@@ -577,6 +589,19 @@
 				$('.wcbs-summary-date').show();
 				$('.wcbs-slots-prompt').hide();
 
+				// Show sleek loading placeholders in display list while slots load
+				var $disp = $('.wcbs-slots-holder ul.wcbs-slots-display');
+				if ($disp.length) {
+					$disp.removeClass('wcbs-hidden').show().removeAttr('style').css('display', 'grid');
+					$disp.html(
+						'<li class="wcbs-skeleton" style="height:44px;list-style:none;"></li>' +
+						'<li class="wcbs-skeleton" style="height:44px;list-style:none;"></li>' +
+						'<li class="wcbs-skeleton" style="height:44px;list-style:none;"></li>' +
+						'<li class="wcbs-skeleton" style="height:44px;list-style:none;"></li>'
+					);
+				}
+				$('.wcbs-slots-empty-notice').hide();
+
 				// Enforce transparent td and round circle anchor (eradicate purple square)
 				$cell.each(function() {
 					this.style.setProperty('background', 'transparent', 'important');
@@ -594,12 +619,49 @@
 
 				// Dispatch triggers to WooCommerce Bookings (debounced to 1 single call to avoid canceled requests)
 				var dispatchTriggers = function() {
-					$('input[name="wc_bookings_field_start_date_day"], input[name="wc_bookings_field_start_date_month"], input[name="wc_bookings_field_start_date_year"], input[name="wc_bookings_field_start_date"]').trigger('change').trigger('input');
+					$('input[name="wc_bookings_field_start_date_day"], input.booking_date_day').val(dt.day).trigger('change').trigger('input');
+					$('input[name="wc_bookings_field_start_date_month"], input.booking_date_month').val(dt.month).trigger('change').trigger('input');
+					$('input[name="wc_bookings_field_start_date_year"], input.booking_date_year').val(dt.year).trigger('change').trigger('input');
+					$('input[name="wc_bookings_field_start_date"]').val(dt.fdate).trigger('change').trigger('input');
+
+					var $pickerWrapper = $('.wc-bookings-date-picker, fieldset.wc-bookings-date-picker');
+					$pickerWrapper.triggerHandler('date-selected', [ dt.fdate ]);
+					$pickerWrapper.trigger('date-selected', [ dt.fdate ]);
 
 					var $targets = $('fieldset.wc-bookings-date-picker, .wc-bookings-date-picker, #wc-bookings-booking-form fieldset, #wc-bookings-booking-form, .picker, form.cart');
 					$targets.trigger('date-selected', [ dt.fdate ]).trigger('change');
 					$('#wc-bookings-booking-form').trigger('change').trigger('wc_booking_form_changed');
 					$('form.cart').trigger('change');
+
+					// DIRECT AJAX FETCH FALLBACK: Fetch slots via AJAX if not populated
+					var ajaxUrl = (window.booking_form_params && booking_form_params.ajax_url) ? booking_form_params.ajax_url : ((typeof wcbs_params !== 'undefined') ? wcbs_params.ajax_url : '');
+					if (ajaxUrl) {
+						var $f = $('form.cart, form.wc-bookings-booking-form, #wc-bookings-booking-form').first();
+						if ($f.length) {
+							var fData = $f.serialize();
+							$.ajax({
+								type: 'POST',
+								url: ajaxUrl,
+								data: {
+									action: 'wc_bookings_get_blocks',
+									form: fData
+								},
+								success: function(code) {
+									if (code && code.trim() !== '') {
+										var $disp = $('.wcbs-slots-holder ul.wcbs-slots-display');
+										if ($disp.length) {
+											$disp.html(code);
+											self.syncTimeSlots($container);
+										}
+										var $nat = $('ul.block-picker:not(.wcbs-slots-display)').first();
+										if ($nat.length) {
+											$nat.html(code);
+										}
+									}
+								}
+							});
+						}
+					}
 
 					if (window.console && console.log) {
 						console.log('[WCBS Diagnostics] Date clicked & dispatched (clean single trigger):', dt.fdate, {
@@ -632,16 +694,23 @@
 			// Global jQuery AJAX completion hook (catches any AJAX on the booking page)
 			$(document).ajaxComplete(function(event, xhr, settings) {
 				if (window.console && console.log) {
-					console.log('[WCBS Diagnostics] AJAX Completed:', settings.url, 'Status:', xhr.status);
+					console.log('[WCBS Diagnostics] AJAX Completed:', settings ? settings.url : '', 'Status:', xhr ? xhr.status : '');
 				}
 
-				// If this was a wc_bookings_get_blocks request, ensure native picker receives the HTML
+				// If this was a wc_bookings_get_blocks request, ensure display picker receives the HTML immediately
 				if (settings && settings.data && typeof settings.data === 'string') {
 					if (settings.data.indexOf('wc_bookings_get_blocks') !== -1 || settings.data.indexOf('get_blocks') !== -1) {
 						if (xhr.responseText && xhr.responseText.trim() !== '') {
-							var $nativePicker = $('fieldset.wc-bookings-date-picker ul.block-picker, .wcbs-split-col-left ul.block-picker, fieldset.wc-bookings-date-picker .wc-bookings-time-block-picker ul').first();
-							if ($nativePicker.length && $nativePicker.html().trim() !== xhr.responseText.trim()) {
-								$nativePicker.html(xhr.responseText);
+							var resp = xhr.responseText.trim();
+							var $disp = $('.wcbs-slots-holder ul.wcbs-slots-display');
+							if ($disp.length) {
+								$disp.html(resp);
+								$disp.removeClass('wcbs-hidden').show().removeAttr('style').css('display', 'grid');
+								$('.wcbs-slots-prompt').hide();
+								$('.wcbs-slots-empty-notice').hide();
+								$('.wcbs-slot-tabs-nav').show();
+								var $nat = $('ul.block-picker:not(.wcbs-slots-display)').first();
+								self.enhanceSlots($container, $disp, $nat);
 							}
 						}
 					}
@@ -663,6 +732,15 @@
 				var origOpen = XMLHttpRequest.prototype.open;
 				XMLHttpRequest.prototype.open = function() {
 					this.addEventListener('load', function() {
+						try {
+							if (this.responseText && (this.responseText.indexOf('block-picker') !== -1 || this.responseText.indexOf('data-value') !== -1 || this.responseText.indexOf('data-block') !== -1)) {
+								var $disp = $('.wcbs-slots-holder ul.wcbs-slots-display');
+								if ($disp.length) {
+									$disp.html(this.responseText);
+									self.syncTimeSlots($container);
+								}
+							}
+						} catch (e) {}
 						setTimeout(function() {
 							self.syncTimeSlots($container);
 							self.unblockCalendar($container);

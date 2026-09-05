@@ -624,7 +624,6 @@ ul.blocks:not(.wcbs-slots-display) {
 }
 
 .wcbs-slots-holder .wcbs-slots-display.wcbs-hidden,
-.wcbs-slots-holder .wcbs-slots-display[style*="display: none"],
 .wcbs-slots-holder .wcbs-slots-display:empty {
 	display: none !important;
 }

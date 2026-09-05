@@ -376,6 +376,18 @@ body form.cart .ui-datepicker td.bookable a:hover,
 	transform: scale(1.08) !important;
 }
 
+/* Multi-day connected range background for intermediate days */
+html body #wc-bookings-booking-form .wc-bookings-date-picker .ui-datepicker td.bookable-range:not(.ui-datepicker-current-day) a,
+body table.ui-datepicker-calendar tbody td.bookable-range:not(.ui-datepicker-current-day) a,
+body .wc-bookings-date-picker .ui-datepicker td.bookable-range:not(.ui-datepicker-current-day) a,
+body .wcbs-root-container .ui-datepicker td.bookable-range:not(.ui-datepicker-current-day) a {
+	background: #e0e7ff !important;
+	background-color: #e0e7ff !important;
+	color: var(--wcbs-primary, #4f46e5) !important;
+	font-weight: 600 !important;
+	border-radius: 6px !important;
+}
+
 /* Day States: Today */
 html body #wc-bookings-booking-form .wc-bookings-date-picker .ui-datepicker td.ui-datepicker-today a,
 html body .wcbs-root-container #wc-bookings-booking-form .wc-bookings-date-picker .ui-datepicker td.ui-datepicker-today a,
@@ -880,6 +892,12 @@ html body #wc-bookings-booking-form ul.blocks li a.selected,
 	box-sizing: border-box !important;
 	scrollbar-width: thin !important;
 	scrollbar-color: #cbd5e1 transparent !important;
+}
+
+.wcbs-custom-select-container.wcbs-dropup .wcbs-custom-select-menu {
+	top: auto !important;
+	bottom: calc(100% + 5px) !important;
+	box-shadow: 0 -12px 28px -4px rgba(15, 23, 42, 0.14), 0 -8px 12px -6px rgba(15, 23, 42, 0.08) !important;
 }
 
 .wcbs-custom-select-menu::-webkit-scrollbar {

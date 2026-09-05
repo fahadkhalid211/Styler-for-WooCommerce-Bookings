@@ -510,13 +510,45 @@
 				$('.wcbs-custom-select-trigger').attr('aria-expanded', 'false');
 
 				if (isOpen) {
-					$customContainer.removeClass('wcbs-open');
+					$customContainer.removeClass('wcbs-open wcbs-dropup');
 					$trigger.attr('aria-expanded', 'false');
 					$menu.hide();
 				} else {
+					// Check viewport boundary to flip upward if near screen bottom
+					var triggerOffset = $trigger.offset();
+					if (triggerOffset) {
+						var spaceBelow = $(window).height() - (triggerOffset.top - $(window).scrollTop() + $trigger.outerHeight());
+						if (spaceBelow < 230 && (triggerOffset.top - $(window).scrollTop()) > 230) {
+							$customContainer.addClass('wcbs-dropup');
+						} else {
+							$customContainer.removeClass('wcbs-dropup');
+						}
+					}
+
 					$customContainer.addClass('wcbs-open');
 					$trigger.attr('aria-expanded', 'true');
 					$menu.show();
+				}
+			});
+
+			// Keyboard navigation
+			$trigger.on('keydown', function(e) {
+				if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+					e.preventDefault();
+					if (!$customContainer.hasClass('wcbs-open')) {
+						$trigger.trigger('click');
+					} else {
+						var $items = $menu.find('.wcbs-custom-select-item:not(.wcbs-placeholder-item)');
+						var $cur = $items.filter('.wcbs-selected');
+						var idx = $items.index($cur);
+						if (e.key === 'ArrowDown') {
+							var next = (idx + 1 < $items.length) ? idx + 1 : 0;
+							$items.eq(next).trigger('click');
+						} else if (e.key === 'ArrowUp') {
+							var prev = (idx - 1 >= 0) ? idx - 1 : $items.length - 1;
+							$items.eq(prev).trigger('click');
+						}
+					}
 				}
 			});
 
@@ -527,7 +559,7 @@
 				var val = $(this).data('value');
 				$select.val(val).trigger('change').trigger('input');
 				self.syncCustomSelectOptions($select, $customContainer);
-				$customContainer.removeClass('wcbs-open');
+				$customContainer.removeClass('wcbs-open wcbs-dropup');
 				$trigger.attr('aria-expanded', 'false');
 				$menu.hide();
 			});

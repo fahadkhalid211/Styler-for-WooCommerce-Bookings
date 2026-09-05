@@ -38,9 +38,13 @@
 			$container.find('.wcbs-popup-container').show();
 			$('body').addClass('wcbs-popup-open');
 
-			// Trigger datepicker resize/refresh if needed
+			// Trigger datepicker resize/refresh and unblock
 			if ($.datepicker) {
 				$container.find('.ui-datepicker').datepicker('refresh');
+			}
+			if (window.WCBSFrontend) {
+				window.WCBSFrontend.syncTimeSlots($container);
+				window.WCBSFrontend.unblockCalendar($container);
 			}
 		},
 

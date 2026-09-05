@@ -10,16 +10,40 @@
 			if (!$block.length || !bookingData || !bookingData.date) return;
 
 			var title = bookingData.title || 'Booking Appointment';
-			var start = bookingData.startIso || new Date().toISOString();
-			var end   = bookingData.endIso || new Date(new Date(start).getTime() + 60*60*1000).toISOString();
+			var startIso = bookingData.startIso;
+			var endIso   = bookingData.endIso;
+
+			if (!startIso && bookingData.date) {
+				try {
+					var rawDate = bookingData.date.replace(/^[a-zA-Z]+,\s*/, '');
+					var rawTime = (bookingData.time && bookingData.time.indexOf('Select') === -1) ? bookingData.time : '09:00';
+					var timeParts = rawTime.split(/[–-]/);
+					var startTimeStr = timeParts[0].trim();
+					var endTimeStr = timeParts.length > 1 ? timeParts[1].trim() : '';
+
+					var dObj = new Date(rawDate + ' ' + startTimeStr);
+					if (!isNaN(dObj.getTime())) {
+						startIso = dObj.toISOString();
+						if (endTimeStr) {
+							var eObj = new Date(rawDate + ' ' + endTimeStr);
+							if (!isNaN(eObj.getTime())) {
+								endIso = eObj.toISOString();
+							}
+						}
+					}
+				} catch (e) {}
+			}
+
+			if (!startIso) startIso = new Date().toISOString();
+			if (!endIso) endIso = new Date(new Date(startIso).getTime() + 60*60*1000).toISOString();
 
 			// Format for Google / Outlook: YYYYMMDDTHHmmssZ
 			function formatCalDate(iso) {
 				return iso.replace(/[-:]/g, '').replace(/\.\d{3}/, '');
 			}
 
-			var gStart = formatCalDate(start);
-			var gEnd   = formatCalDate(end);
+			var gStart = formatCalDate(startIso);
+			var gEnd   = formatCalDate(endIso);
 
 			// Google Calendar URL
 			var googleUrl = 'https://calendar.google.com/calendar/render?action=TEMPLATE' +
@@ -31,8 +55,8 @@
 			// Outlook URL
 			var outlookUrl = 'https://outlook.live.com/calendar/0/deeplink/compose?path=/calendar/action/compose&rru=addevent' +
 				'&subject=' + encodeURIComponent(title) +
-				'&startdt=' + encodeURIComponent(start) +
-				'&enddt=' + encodeURIComponent(end) +
+				'&startdt=' + encodeURIComponent(startIso) +
+				'&enddt=' + encodeURIComponent(endIso) +
 				'&body=' + encodeURIComponent('Confirmed booking at ' + window.location.hostname);
 			$block.find('.wcbs-cal-outlook').attr('href', outlookUrl);
 

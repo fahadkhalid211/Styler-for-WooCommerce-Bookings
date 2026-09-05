@@ -446,6 +446,16 @@
 					var $bookBtn = $('button.single_add_to_cart_button, .single_add_to_cart_button, button.wc-bookings-booking-form-button');
 					$bookBtn.prop('disabled', false).removeClass('disabled').removeAttr('disabled');
 					self.triggerCostCalculation($container);
+
+					if (window.WCBSCalendarSync && window.WCBSCalendarSync.update) {
+						var dateText = $container.find('.wcbs-val-date').text();
+						var prodTitle = $container.find('.wcbs-summary-title').text() || document.title;
+						window.WCBSCalendarSync.update({
+							title: prodTitle,
+							date: dateText,
+							time: summaryTime
+						});
+					}
 				}
 			};
 
@@ -753,6 +763,16 @@
 
 				// Enable Book Now button
 				$('button.single_add_to_cart_button, .single_add_to_cart_button').prop('disabled', false).removeClass('disabled');
+
+				if (window.WCBSCalendarSync && window.WCBSCalendarSync.update) {
+					var dText = $container.find('.wcbs-val-date').text();
+					var pTitle = $container.find('.wcbs-summary-title').text() || document.title;
+					window.WCBSCalendarSync.update({
+						title: pTitle,
+						date: dText,
+						time: chosenText
+					});
+				}
 			});
 		},
 

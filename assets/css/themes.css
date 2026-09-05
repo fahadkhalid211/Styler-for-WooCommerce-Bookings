@@ -141,3 +141,132 @@
 	--wcbs-slot-sel-bg: #ec4899;
 	--wcbs-slot-sel-text: #ffffff;
 }
+
+
+/* ==========================================================================
+   THEME-SPECIFIC FORM COMPONENTS & CUSTOM DROPDOWN STYLING
+   ========================================================================== */
+
+/* Dark Theme Form Controls */
+.wcbs-theme-dark .wcbs-custom-select-trigger {
+	background-color: #1e293b !important;
+	border-color: #334155 !important;
+	color: #f1f5f9 !important;
+}
+.wcbs-theme-dark .wcbs-custom-select-trigger:hover,
+.wcbs-theme-dark .wcbs-custom-select-container.wcbs-open .wcbs-custom-select-trigger {
+	border-color: #6366f1 !important;
+	background-color: #1e293b !important;
+}
+.wcbs-theme-dark .wcbs-custom-select-menu {
+	background: #1e293b !important;
+	border-color: #334155 !important;
+	box-shadow: 0 12px 28px -4px rgba(0, 0, 0, 0.4) !important;
+}
+.wcbs-theme-dark .wcbs-custom-select-item {
+	color: #f1f5f9 !important;
+}
+.wcbs-theme-dark .wcbs-custom-select-item:hover {
+	background-color: #334155 !important;
+	color: #ffffff !important;
+}
+.wcbs-theme-dark .wcbs-custom-select-item.wcbs-selected {
+	background-color: #312e81 !important;
+	color: #818cf8 !important;
+}
+.wcbs-theme-dark .wcbs-custom-select-item.wcbs-placeholder-item {
+	color: #64748b !important;
+}
+.wcbs-theme-dark .wc-bookings-date-picker-persons,
+.wcbs-theme-dark fieldset.wc-bookings-date-picker-persons,
+.wcbs-theme-dark .wc_bookings_field_duration,
+.wcbs-theme-dark fieldset.wc_bookings_field_duration,
+.wcbs-theme-dark fieldset:has(input[name*="persons"]) {
+	background: #1e293b !important;
+	border-color: #334155 !important;
+	color: #f1f5f9 !important;
+}
+.wcbs-theme-dark .wc-bookings-booking-form-person-type,
+.wcbs-theme-dark .wc-bookings-date-picker-persons .form-field {
+	border-color: #334155 !important;
+}
+.wcbs-theme-dark .wc-bookings-booking-form-person-type label,
+.wcbs-theme-dark .wc-bookings-date-picker-persons label,
+.wcbs-theme-dark .wc_bookings_field_duration label {
+	color: #f1f5f9 !important;
+}
+.wcbs-theme-dark .wc-bookings-booking-form-person-type input[type="number"],
+.wcbs-theme-dark .wc-bookings-date-picker-persons input[type="number"],
+.wcbs-theme-dark .wc_bookings_field_duration input[type="number"] {
+	background-color: #0f172a !important;
+	border-color: #334155 !important;
+	color: #f1f5f9 !important;
+}
+.wcbs-theme-dark .wcbs-summary-cost-box {
+	background: #0f172a !important;
+	border-color: #334155 !important;
+}
+.wcbs-theme-dark .wcbs-summary-title {
+	color: #f1f5f9 !important;
+}
+
+/* Luxury Theme Form Controls */
+.wcbs-theme-luxury .wcbs-custom-select-trigger {
+	background-color: #fffdfa !important;
+	border-color: #fde68a !important;
+	color: #451a03 !important;
+}
+.wcbs-theme-luxury .wcbs-custom-select-trigger:hover,
+.wcbs-theme-luxury .wcbs-custom-select-container.wcbs-open .wcbs-custom-select-trigger {
+	border-color: #b45309 !important;
+	background-color: #ffffff !important;
+}
+.wcbs-theme-luxury .wcbs-custom-select-menu {
+	background: #fffdfa !important;
+	border-color: #fde68a !important;
+}
+.wcbs-theme-luxury .wcbs-custom-select-item {
+	color: #451a03 !important;
+}
+.wcbs-theme-luxury .wcbs-custom-select-item:hover {
+	background-color: #fef3c7 !important;
+	color: #78350f !important;
+}
+.wcbs-theme-luxury .wcbs-custom-select-item.wcbs-selected {
+	background-color: #fef3c7 !important;
+	color: #b45309 !important;
+}
+.wcbs-theme-luxury .wc-bookings-date-picker-persons,
+.wcbs-theme-luxury fieldset.wc-bookings-date-picker-persons,
+.wcbs-theme-luxury .wc_bookings_field_duration,
+.wcbs-theme-luxury fieldset.wc_bookings_field_duration,
+.wcbs-theme-luxury fieldset:has(input[name*="persons"]) {
+	background: #fffdfa !important;
+	border-color: #fde68a !important;
+	color: #451a03 !important;
+}
+.wcbs-theme-luxury .wc-bookings-booking-form-person-type input[type="number"],
+.wcbs-theme-luxury .wc-bookings-date-picker-persons input[type="number"],
+.wcbs-theme-luxury .wc_bookings_field_duration input[type="number"] {
+	background-color: #ffffff !important;
+	border-color: #fde68a !important;
+	color: #451a03 !important;
+}
+
+/* Vibrant Theme Form Controls */
+.wcbs-theme-vibrant .wcbs-custom-select-trigger:hover,
+.wcbs-theme-vibrant .wcbs-custom-select-container.wcbs-open .wcbs-custom-select-trigger {
+	border-color: #ec4899 !important;
+	box-shadow: 0 0 0 3.5px rgba(236, 72, 153, 0.15) !important;
+}
+.wcbs-theme-vibrant .wcbs-custom-select-item.wcbs-selected {
+	background-color: #fdf2f8 !important;
+	color: #ec4899 !important;
+}
+.wcbs-theme-vibrant .wc-bookings-date-picker-persons,
+.wcbs-theme-vibrant fieldset.wc-bookings-date-picker-persons,
+.wcbs-theme-vibrant .wc_bookings_field_duration,
+.wcbs-theme-vibrant fieldset.wc_bookings_field_duration,
+.wcbs-theme-vibrant fieldset:has(input[name*="persons"]) {
+	border-color: #fce7f3 !important;
+}

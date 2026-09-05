@@ -512,16 +512,12 @@ body form.cart .ui-datepicker td.not_bookable span,
 	display: none !important;
 }
 
-/* Completely HIDE native WooCommerce Bookings time block pickers (they remain in DOM for AJAX syncing only)
-   CRITICAL: Never hide if it contains select dropdowns (for customer-defined hours) */
-.wc-bookings-time-block-picker:not(:has(select)):not(.wcbs-time-dropdown-field),
-fieldset.wc-bookings-date-picker .wc-bookings-time-block-picker:not(:has(select)):not(.wcbs-time-dropdown-field),
+/* Completely HIDE native WooCommerce Bookings fixed-slot block pickers (they remain in DOM for AJAX syncing only)
+   CRITICAL: Never hide customer-defined duration pickers or selects */
 fieldset.wc-bookings-date-picker ul.block-picker,
 fieldset.wc-bookings-date-picker ul.blocks,
-.wcbs-split-col-left .wc-bookings-time-block-picker:not(:has(select)):not(.wcbs-time-dropdown-field),
-.wcbs-split-col-left .block-picker,
+.wcbs-split-col-left ul.block-picker,
 .wcbs-split-col-left ul.blocks,
-.wcbs-split-col-right .wc-bookings-time-block-picker:not(:has(select)):not(.wcbs-time-dropdown-field),
 .wcbs-split-col-right ul.block-picker:not(.wcbs-slots-display),
 .wcbs-split-col-right ul.blocks:not(.wcbs-slots-display),
 ul.block-picker:not(.wcbs-slots-display),
@@ -537,11 +533,14 @@ ul.blocks:not(.wcbs-slots-display) {
 	pointer-events: none !important;
 }
 
-/* Ensure time dropdowns inside right column remain completely visible & interactable */
+/* Ensure time dropdown containers inside right column remain completely visible & interactable */
+.time-picker-fieldset,
+.wc-bookings-time-block-picker,
+.wcbs-time-dropdowns-wrapper,
 .wcbs-time-dropdowns-wrapper .wc-bookings-time-block-picker,
 .wcbs-time-dropdowns-wrapper .form-field,
 .wcbs-time-dropdowns-wrapper .wcbs-time-dropdown-field {
-	display: flex !important;
+	display: block !important;
 	visibility: visible !important;
 	height: auto !important;
 	max-height: none !important;
@@ -764,16 +763,21 @@ html body #wc-bookings-booking-form ul.blocks li a.selected,
 }
 
 /* Sleek Customer-Defined Time Dropdowns (User-Defined Hours) */
-.wcbs-time-dropdowns-wrapper {
+.wcbs-time-dropdowns-wrapper,
+.wc-bookings-time-block-picker:has(select),
+.wcbs-split-col-right .wc-bookings-time-block-picker {
 	display: grid !important;
 	grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)) !important;
 	gap: 14px !important;
-	margin: 10px 0 18px 0 !important;
+	margin: 12px 0 18px 0 !important;
 	width: 100% !important;
+	box-sizing: border-box !important;
 }
 
 .wcbs-time-dropdown-field,
-.wcbs-time-dropdowns-wrapper .form-field {
+.wcbs-time-dropdowns-wrapper .form-field,
+.wc-bookings-time-block-picker .form-field,
+.wcbs-split-col-right .form-field:has(select) {
 	display: flex !important;
 	flex-direction: column !important;
 	gap: 6px !important;
@@ -782,35 +786,51 @@ html body #wc-bookings-booking-form ul.blocks li a.selected,
 	width: 100% !important;
 	float: none !important;
 	clear: none !important;
+	box-sizing: border-box !important;
 }
 
 .wcbs-time-dropdown-field label,
-.wcbs-time-dropdowns-wrapper .form-field label {
+.wcbs-time-dropdowns-wrapper label,
+.wc-bookings-time-block-picker label,
+.time-picker-fieldset label,
+.wcbs-split-col-right label:has(+ select) {
 	display: flex !important;
 	align-items: center !important;
 	gap: 6px !important;
 	font-size: 11px !important;
 	font-weight: 700 !important;
 	text-transform: uppercase !important;
-	letter-spacing: 0.5px !important;
+	letter-spacing: 0.6px !important;
 	color: var(--wcbs-text-muted, #64748b) !important;
-	margin-bottom: 2px !important;
+	margin: 0 0 6px 0 !important;
+	padding: 0 !important;
 }
 
 .wcbs-time-dropdown-field label svg,
-.wcbs-time-dropdowns-wrapper .form-field label svg {
+.wcbs-time-dropdowns-wrapper label svg,
+.wc-bookings-time-block-picker label svg {
 	color: var(--wcbs-primary, #4f46e5) !important;
 	flex-shrink: 0 !important;
 }
 
+/* Universal Select styling for all booking selects */
+.wcbs-root-container select,
+.wcbs-split-col-right select,
 .wcbs-time-dropdown-field select,
-.wcbs-time-dropdowns-wrapper .form-field select,
-#wc-bookings-booking-form .wcbs-time-dropdown-field select,
-.wcbs-root-container select[name="wc_bookings_field_start_date_time"],
-.wcbs-root-container select[name="wc_bookings_field_duration"],
-.wcbs-root-container select[name="wc_bookings_field_end_date_time"] {
+.wcbs-time-dropdowns-wrapper select,
+.wc-bookings-time-block-picker select,
+.time-picker-fieldset select,
+.block-picker select,
+#wc-bookings-booking-form select,
+form.cart select,
+select[name*="wc_bookings"],
+select[name*="duration"],
+select[name*="start_date"],
+select[name*="end_date"] {
 	width: 100% !important;
+	max-width: 100% !important;
 	height: 48px !important;
+	min-height: 48px !important;
 	padding: 0 38px 0 14px !important;
 	background-color: #ffffff !important;
 	border: 1.5px solid var(--wcbs-border, #e2e8f0) !important;
@@ -833,23 +853,45 @@ html body #wc-bookings-booking-form ul.blocks li a.selected,
 	box-sizing: border-box !important;
 }
 
+.wcbs-root-container select:hover,
+.wcbs-split-col-right select:hover,
 .wcbs-time-dropdown-field select:hover,
-.wcbs-time-dropdowns-wrapper .form-field select:hover,
-.wcbs-root-container select[name="wc_bookings_field_start_date_time"]:hover,
-.wcbs-root-container select[name="wc_bookings_field_duration"]:hover,
-.wcbs-root-container select[name="wc_bookings_field_end_date_time"]:hover {
+.wcbs-time-dropdowns-wrapper select:hover,
+.wc-bookings-time-block-picker select:hover,
+.time-picker-fieldset select:hover,
+.block-picker select:hover,
+#wc-bookings-booking-form select:hover,
+form.cart select:hover {
 	border-color: #cbd5e1 !important;
 	background-color: #f8fafc !important;
 }
 
+.wcbs-root-container select:focus,
+.wcbs-split-col-right select:focus,
 .wcbs-time-dropdown-field select:focus,
-.wcbs-time-dropdowns-wrapper .form-field select:focus,
-.wcbs-root-container select[name="wc_bookings_field_start_date_time"]:focus,
-.wcbs-root-container select[name="wc_bookings_field_duration"]:focus,
-.wcbs-root-container select[name="wc_bookings_field_end_date_time"]:focus {
+.wcbs-time-dropdowns-wrapper select:focus,
+.wc-bookings-time-block-picker select:focus,
+.time-picker-fieldset select:focus,
+.block-picker select:focus,
+#wc-bookings-booking-form select:focus,
+form.cart select:focus {
 	border-color: var(--wcbs-primary, #4f46e5) !important;
 	background-color: #ffffff !important;
 	box-shadow: 0 0 0 3.5px rgba(79, 70, 229, 0.15) !important;
+}
+
+/* Ensure legend and text inside time-picker-fieldset don't disrupt the layout */
+.time-picker-fieldset {
+	border: none !important;
+	padding: 0 !important;
+	margin: 0 !important;
+	width: 100% !important;
+}
+.time-picker-fieldset legend {
+	display: none !important;
+}
+.wc-bookings-time-block-picker > p {
+	display: none !important;
 }
 
 /* Urgency Badge */

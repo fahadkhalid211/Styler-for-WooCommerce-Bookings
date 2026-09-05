@@ -29,8 +29,6 @@ class WCBS_Ajax {
 		add_action( 'wp_ajax_wcbs_save_customizer_settings', array( $this, 'save_customizer_settings' ) );
 		add_action( 'wp_ajax_wcbs_reset_customizer_settings', array( $this, 'reset_customizer_settings' ) );
 		add_action( 'wp_ajax_wcbs_get_preview_styles', array( $this, 'get_preview_styles' ) );
-		add_action( 'wp_ajax_nopriv_wcbs_debug_info', array( $this, 'debug_info' ) );
-		add_action( 'wp_ajax_wcbs_debug_info', array( $this, 'debug_info' ) );
 	}
 
 	/**
@@ -85,36 +83,5 @@ class WCBS_Ajax {
 		$css      = $this->settings->generate_css_variables( $raw_data );
 
 		wp_send_json_success( array( 'css' => $css ) );
-	}
-
-	/**
-	 * Diagnostic dump for WooCommerce Bookings templates and product form.
-	 */
-	public function debug_info() {
-		$out = array();
-		$plugin_dir = WP_PLUGIN_DIR . '/woocommerce-bookings';
-		if ( is_dir( $plugin_dir ) ) {
-			$files = glob( $plugin_dir . '/templates/booking-form/*.php' );
-			if ( ! empty( $files ) ) {
-				foreach ( $files as $f ) {
-					$out['templates'][ basename( $f ) ] = file_get_contents( $f );
-				}
-			}
-		}
-		if ( function_exists( 'wc_get_product' ) ) {
-			$prod = wc_get_product( 54 );
-			if ( $prod ) {
-				$out['product_type']   = $prod->get_type();
-				$out['duration_type']  = method_exists( $prod, 'get_duration_type' ) ? $prod->get_duration_type() : '';
-				$out['duration_unit']  = method_exists( $prod, 'get_duration_unit' ) ? $prod->get_duration_unit() : '';
-				if ( class_exists( 'WC_Booking_Form' ) ) {
-					ob_start();
-					$bf = new WC_Booking_Form( $prod );
-					$bf->output();
-					$out['booking_form_html'] = ob_get_clean();
-				}
-			}
-		}
-		wp_send_json( $out );
 	}
 }

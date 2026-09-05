@@ -21,6 +21,7 @@ jobs:
           server: 72.62.207.115
           username: u460037536.royalblue-raccoon-912134.hostingersite.com
           password: ${{ secrets.FTP_PASSWORD }}
+          timeout: 120000
           server-dir: wp-content/plugins/styler-for-woo/
           exclude: |
             **/.git*

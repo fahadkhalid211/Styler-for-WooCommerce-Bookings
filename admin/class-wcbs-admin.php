@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Admin Panel Controller for Styler for WooCommerce Bookings.
  *

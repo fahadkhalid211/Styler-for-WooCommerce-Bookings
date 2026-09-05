@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Elementor Custom Widget for Styler for WooCommerce Bookings.
  *

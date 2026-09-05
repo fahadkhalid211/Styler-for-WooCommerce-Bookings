@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Settings and Option Management for Styler for WooCommerce Bookings.
  *

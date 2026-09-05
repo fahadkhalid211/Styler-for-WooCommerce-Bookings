@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Universal Shortcode Handler for Styler for WooCommerce Bookings.
  *

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Booking Form Opening Wrapper Template.
  *

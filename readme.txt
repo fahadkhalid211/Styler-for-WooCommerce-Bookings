@@ -1,5 +1,5 @@
-﻿=== Styler for WooCommerce Bookings ===
-Contributors: antigravity
+=== Styler for WooCommerce Bookings ===
+Contributors: fahadkhalid211
 Tags: woocommerce, bookings, appointment, calendar, customizer, styling, booking form, elementor, gutenberg
 Requires at least: 5.8
 Tested up to: 6.7

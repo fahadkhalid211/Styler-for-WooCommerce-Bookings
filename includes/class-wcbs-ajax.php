@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * AJAX Controller for Styler for WooCommerce Bookings.
  *

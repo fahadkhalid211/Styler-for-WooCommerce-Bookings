@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Frontend Controller for Styler for WooCommerce Bookings.
  *

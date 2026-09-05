@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Gutenberg Block Integration for Styler for WooCommerce Bookings.
  *

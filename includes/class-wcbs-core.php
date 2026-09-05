@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Core Orchestrator Class for Styler for WooCommerce Bookings.
  *

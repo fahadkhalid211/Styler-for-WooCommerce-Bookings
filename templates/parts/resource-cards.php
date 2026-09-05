@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Resource / Staff Member Visual Cards Part.
  *

@@ -4,8 +4,8 @@
  * Plugin URI:  https://github.com/fahadkhalid211/Styler-for-WooCommerce-Bookings
  * Description: Transform WooCommerce Bookings with modern layout flows (Wizard, Split-View, Drawer, Modal, Bottom-Sheet), live visual customizer, designer themes, time slot grouping, staff cards, and live price breakdown.
  * Version:     1.0.8
- * Author:      Antigravity
- * Author URI:  https://wordpress.org
+ * Author:      Fahad Khalid
+ * Author URI:  https://github.com/fahadkhalid211
  * License:     GPL-2.0-or-later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: styler-for-woo

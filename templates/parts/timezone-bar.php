@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Timezone Detection and Conversion Bar Part.
  *

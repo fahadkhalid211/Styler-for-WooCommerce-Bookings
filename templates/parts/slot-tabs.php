@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Time Slot Morning / Afternoon / Evening Filter Tabs.
  *

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Dynamic Live Booking Summary Card Part.
  *

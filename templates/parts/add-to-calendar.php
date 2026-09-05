@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Add to Calendar Links Template Part.
  *

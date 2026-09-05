@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Per-Product Meta Box Controller for Styler for WooCommerce Bookings.
  *

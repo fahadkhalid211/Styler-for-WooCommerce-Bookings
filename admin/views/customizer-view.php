@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * Admin Live Customizer View.
  *
@@ -26,20 +26,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 				</svg>
 			</div>
 			<div>
-				<h1 class="wcbs-header-title"><?php esc_html_e( 'Styler for WooCommerce Bookings', 'styler-for-woocommerce-bookings' ); ?></h1>
-				<span class="wcbs-header-badge"><?php esc_html_e( 'Visual Customizer v1.0.0', 'styler-for-woocommerce-bookings' ); ?></span>
+				<h1 class="wcbs-header-title"><?php esc_html_e( 'Styler for WooCommerce Bookings', 'styler-for-woo' ); ?></h1>
+				<span class="wcbs-header-badge"><?php esc_html_e( 'Visual Customizer v1.0.0', 'styler-for-woo' ); ?></span>
 			</div>
 		</div>
 
 		<!-- Device Preview Switcher -->
-		<div class="wcbs-device-switcher" role="group" aria-label="<?php esc_attr_e( 'Device Preview', 'styler-for-woocommerce-bookings' ); ?>">
-			<button type="button" class="wcbs-device-btn active" data-device="desktop" title="<?php esc_attr_e( 'Desktop View', 'styler-for-woocommerce-bookings' ); ?>">
+		<div class="wcbs-device-switcher" role="group" aria-label="<?php esc_attr_e( 'Device Preview', 'styler-for-woo' ); ?>">
+			<button type="button" class="wcbs-device-btn active" data-device="desktop" title="<?php esc_attr_e( 'Desktop View', 'styler-for-woo' ); ?>">
 				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
 			</button>
-			<button type="button" class="wcbs-device-btn" data-device="tablet" title="<?php esc_attr_e( 'Tablet View', 'styler-for-woocommerce-bookings' ); ?>">
+			<button type="button" class="wcbs-device-btn" data-device="tablet" title="<?php esc_attr_e( 'Tablet View', 'styler-for-woo' ); ?>">
 				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
 			</button>
-			<button type="button" class="wcbs-device-btn" data-device="mobile" title="<?php esc_attr_e( 'Mobile View', 'styler-for-woocommerce-bookings' ); ?>">
+			<button type="button" class="wcbs-device-btn" data-device="mobile" title="<?php esc_attr_e( 'Mobile View', 'styler-for-woo' ); ?>">
 				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
 			</button>
 		</div>
@@ -47,11 +47,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<!-- Actions -->
 		<div class="wcbs-header-actions">
 			<button type="button" id="wcbs-reset-btn" class="button">
-				<?php esc_html_e( 'Reset to Defaults', 'styler-for-woocommerce-bookings' ); ?>
+				<?php esc_html_e( 'Reset to Defaults', 'styler-for-woo' ); ?>
 			</button>
 			<button type="button" id="wcbs-save-btn" class="button button-primary button-hero">
 				<span class="wcbs-btn-spinner dashicons dashicons-update spin" style="display:none;"></span>
-				<span class="wcbs-btn-text"><?php esc_html_e( 'Save Changes', 'styler-for-woocommerce-bookings' ); ?></span>
+				<span class="wcbs-btn-text"><?php esc_html_e( 'Save Changes', 'styler-for-woo' ); ?></span>
 			</button>
 		</div>
 	</header>
@@ -62,23 +62,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<nav class="wcbs-nav-tabs">
 				<button type="button" class="wcbs-tab-link active" data-tab="tab-layout">
 					<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
-					<span><?php esc_html_e( 'Layouts', 'styler-for-woocommerce-bookings' ); ?></span>
+					<span><?php esc_html_e( 'Layouts', 'styler-for-woo' ); ?></span>
 				</button>
 				<button type="button" class="wcbs-tab-link" data-tab="tab-presets">
 					<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/></svg>
-					<span><?php esc_html_e( 'Themes', 'styler-for-woocommerce-bookings' ); ?></span>
+					<span><?php esc_html_e( 'Themes', 'styler-for-woo' ); ?></span>
 				</button>
 				<button type="button" class="wcbs-tab-link" data-tab="tab-colors">
 					<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.563-2.512 5.563-5.563C22 6.5 17.5 2 12 2Z"/></svg>
-					<span><?php esc_html_e( 'Colors', 'styler-for-woocommerce-bookings' ); ?></span>
+					<span><?php esc_html_e( 'Colors', 'styler-for-woo' ); ?></span>
 				</button>
 				<button type="button" class="wcbs-tab-link" data-tab="tab-typography">
 					<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
-					<span><?php esc_html_e( 'Styles & Shapes', 'styler-for-woocommerce-bookings' ); ?></span>
+					<span><?php esc_html_e( 'Styles & Shapes', 'styler-for-woo' ); ?></span>
 				</button>
 				<button type="button" class="wcbs-tab-link" data-tab="tab-features">
 					<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-					<span><?php esc_html_e( 'Features & UX', 'styler-for-woocommerce-bookings' ); ?></span>
+					<span><?php esc_html_e( 'Features & UX', 'styler-for-woo' ); ?></span>
 				</button>
 			</nav>
 
@@ -86,8 +86,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 				<!-- TAB 1: LAYOUTS -->
 				<div class="wcbs-tab-pane active" id="tab-layout">
-					<h3 class="wcbs-pane-heading"><?php esc_html_e( 'Booking Layout Flow', 'styler-for-woocommerce-bookings' ); ?></h3>
-					<p class="wcbs-pane-desc"><?php esc_html_e( 'Choose how your booking form renders on single product pages.', 'styler-for-woocommerce-bookings' ); ?></p>
+					<h3 class="wcbs-pane-heading"><?php esc_html_e( 'Booking Layout Flow', 'styler-for-woo' ); ?></h3>
+					<p class="wcbs-pane-desc"><?php esc_html_e( 'Choose how your booking form renders on single product pages.', 'styler-for-woo' ); ?></p>
 
 					<div class="wcbs-layout-options-grid">
 						<label class="wcbs-layout-card <?php echo 'split' === $settings['default_layout'] ? 'active' : ''; ?>">
@@ -97,8 +97,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 									<div class="col-left"></div>
 									<div class="col-right"></div>
 								</div>
-								<strong class="wcbs-card-title"><?php esc_html_e( 'Two-Column Split', 'styler-for-woocommerce-bookings' ); ?></strong>
-								<span class="wcbs-card-caption"><?php esc_html_e( 'Calendar on left, slots & live summary on right (Calendly style).', 'styler-for-woocommerce-bookings' ); ?></span>
+								<strong class="wcbs-card-title"><?php esc_html_e( 'Two-Column Split', 'styler-for-woo' ); ?></strong>
+								<span class="wcbs-card-caption"><?php esc_html_e( 'Calendar on left, slots & live summary on right (Calendly style).', 'styler-for-woo' ); ?></span>
 							</div>
 						</label>
 
@@ -109,8 +109,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 									<div class="dots"><span class="active"></span><span></span><span></span></div>
 									<div class="step-card"></div>
 								</div>
-								<strong class="wcbs-card-title"><?php esc_html_e( 'Multi-Step Wizard', 'styler-for-woocommerce-bookings' ); ?></strong>
-								<span class="wcbs-card-caption"><?php esc_html_e( 'Guided step-by-step booking journey with progress bar.', 'styler-for-woocommerce-bookings' ); ?></span>
+								<strong class="wcbs-card-title"><?php esc_html_e( 'Multi-Step Wizard', 'styler-for-woo' ); ?></strong>
+								<span class="wcbs-card-caption"><?php esc_html_e( 'Guided step-by-step booking journey with progress bar.', 'styler-for-woo' ); ?></span>
 							</div>
 						</label>
 
@@ -120,8 +120,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 								<div class="wcbs-layout-preview-icon drawer-icon">
 									<div class="side-panel"></div>
 								</div>
-								<strong class="wcbs-card-title"><?php esc_html_e( 'Slide-Over Drawer', 'styler-for-woocommerce-bookings' ); ?></strong>
-								<span class="wcbs-card-caption"><?php esc_html_e( 'Opens in an off-canvas sliding panel from the right.', 'styler-for-woocommerce-bookings' ); ?></span>
+								<strong class="wcbs-card-title"><?php esc_html_e( 'Slide-Over Drawer', 'styler-for-woo' ); ?></strong>
+								<span class="wcbs-card-caption"><?php esc_html_e( 'Opens in an off-canvas sliding panel from the right.', 'styler-for-woo' ); ?></span>
 							</div>
 						</label>
 
@@ -131,8 +131,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 								<div class="wcbs-layout-preview-icon modal-icon">
 									<div class="center-box"></div>
 								</div>
-								<strong class="wcbs-card-title"><?php esc_html_e( 'Popup Lightbox', 'styler-for-woocommerce-bookings' ); ?></strong>
-								<span class="wcbs-card-caption"><?php esc_html_e( 'Keeps product page clean; opens in a modern popup modal.', 'styler-for-woocommerce-bookings' ); ?></span>
+								<strong class="wcbs-card-title"><?php esc_html_e( 'Popup Lightbox', 'styler-for-woo' ); ?></strong>
+								<span class="wcbs-card-caption"><?php esc_html_e( 'Keeps product page clean; opens in a modern popup modal.', 'styler-for-woo' ); ?></span>
 							</div>
 						</label>
 
@@ -142,8 +142,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 								<div class="wcbs-layout-preview-icon sheet-icon">
 									<div class="bottom-panel"></div>
 								</div>
-								<strong class="wcbs-card-title"><?php esc_html_e( 'Mobile Bottom Sheet', 'styler-for-woocommerce-bookings' ); ?></strong>
-								<span class="wcbs-card-caption"><?php esc_html_e( 'App-like bottom drawer optimized for mobile touch.', 'styler-for-woocommerce-bookings' ); ?></span>
+								<strong class="wcbs-card-title"><?php esc_html_e( 'Mobile Bottom Sheet', 'styler-for-woo' ); ?></strong>
+								<span class="wcbs-card-caption"><?php esc_html_e( 'App-like bottom drawer optimized for mobile touch.', 'styler-for-woo' ); ?></span>
 							</div>
 						</label>
 
@@ -153,22 +153,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 								<div class="wcbs-layout-preview-icon standard-icon">
 									<div class="block"></div>
 								</div>
-								<strong class="wcbs-card-title"><?php esc_html_e( 'Modern Standard', 'styler-for-woocommerce-bookings' ); ?></strong>
-								<span class="wcbs-card-caption"><?php esc_html_e( 'Refined, responsive single-column layout.', 'styler-for-woocommerce-bookings' ); ?></span>
+								<strong class="wcbs-card-title"><?php esc_html_e( 'Modern Standard', 'styler-for-woo' ); ?></strong>
+								<span class="wcbs-card-caption"><?php esc_html_e( 'Refined, responsive single-column layout.', 'styler-for-woo' ); ?></span>
 							</div>
 						</label>
 					</div>
 
 					<div class="wcbs-form-group" style="margin-top: 20px;">
-						<label for="drawer_button_text"><?php esc_html_e( 'Drawer / Modal Trigger Button Text', 'styler-for-woocommerce-bookings' ); ?></label>
+						<label for="drawer_button_text"><?php esc_html_e( 'Drawer / Modal Trigger Button Text', 'styler-for-woo' ); ?></label>
 						<input type="text" id="drawer_button_text" name="drawer_button_text" value="<?php echo esc_attr( $settings['drawer_button_text'] ); ?>" class="regular-text">
 					</div>
 				</div>
 
 				<!-- TAB 2: THEMES -->
 				<div class="wcbs-tab-pane" id="tab-presets">
-					<h3 class="wcbs-pane-heading"><?php esc_html_e( 'Pre-Designed Themes', 'styler-for-woocommerce-bookings' ); ?></h3>
-					<p class="wcbs-pane-desc"><?php esc_html_e( 'Select a pre-designed theme to instantly transform your booking styles.', 'styler-for-woocommerce-bookings' ); ?></p>
+					<h3 class="wcbs-pane-heading"><?php esc_html_e( 'Pre-Designed Themes', 'styler-for-woo' ); ?></h3>
+					<p class="wcbs-pane-desc"><?php esc_html_e( 'Select a pre-designed theme to instantly transform your booking styles.', 'styler-for-woo' ); ?></p>
 
 					<div class="wcbs-presets-grid">
 						<label class="wcbs-preset-card <?php echo 'clean' === $settings['active_theme'] ? 'active' : ''; ?>">
@@ -179,8 +179,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 									<span style="background: #06b6d4;"></span>
 									<span style="background: #ffffff; border: 1px solid #e2e8f0;"></span>
 								</div>
-								<h4><?php esc_html_e( 'Clean Minimalist', 'styler-for-woocommerce-bookings' ); ?></h4>
-								<p><?php esc_html_e( 'Modern indigo with clean white calendar and subtle borders.', 'styler-for-woocommerce-bookings' ); ?></p>
+								<h4><?php esc_html_e( 'Clean Minimalist', 'styler-for-woo' ); ?></h4>
+								<p><?php esc_html_e( 'Modern indigo with clean white calendar and subtle borders.', 'styler-for-woo' ); ?></p>
 							</div>
 						</label>
 
@@ -192,8 +192,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 									<span style="background: #38bdf8;"></span>
 									<span style="background: #0f172a;"></span>
 								</div>
-								<h4><?php esc_html_e( 'Modern Dark', 'styler-for-woocommerce-bookings' ); ?></h4>
-								<p><?php esc_html_e( 'High contrast dark calendar with glowing accent colors.', 'styler-for-woocommerce-bookings' ); ?></p>
+								<h4><?php esc_html_e( 'Modern Dark', 'styler-for-woo' ); ?></h4>
+								<p><?php esc_html_e( 'High contrast dark calendar with glowing accent colors.', 'styler-for-woo' ); ?></p>
 							</div>
 						</label>
 
@@ -205,8 +205,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 									<span style="background: #d97706;"></span>
 									<span style="background: #fdfbf7; border: 1px solid #fde68a;"></span>
 								</div>
-								<h4><?php esc_html_e( 'Luxury & Spa', 'styler-for-woocommerce-bookings' ); ?></h4>
-								<p><?php esc_html_e( 'Warm bronze, gold tones, and organic cream surfaces.', 'styler-for-woocommerce-bookings' ); ?></p>
+								<h4><?php esc_html_e( 'Luxury & Spa', 'styler-for-woo' ); ?></h4>
+								<p><?php esc_html_e( 'Warm bronze, gold tones, and organic cream surfaces.', 'styler-for-woo' ); ?></p>
 							</div>
 						</label>
 
@@ -218,8 +218,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 									<span style="background: #8b5cf6;"></span>
 									<span style="background: #fdf2f8;"></span>
 								</div>
-								<h4><?php esc_html_e( 'Vibrant Modern', 'styler-for-woocommerce-bookings' ); ?></h4>
-								<p><?php esc_html_e( 'Bold magenta accents and playful rounded pill buttons.', 'styler-for-woocommerce-bookings' ); ?></p>
+								<h4><?php esc_html_e( 'Vibrant Modern', 'styler-for-woo' ); ?></h4>
+								<p><?php esc_html_e( 'Bold magenta accents and playful rounded pill buttons.', 'styler-for-woo' ); ?></p>
 							</div>
 						</label>
 
@@ -229,8 +229,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 								<div class="wcbs-preset-palette">
 									<span style="background: linear-gradient(135deg, red, blue, green);"></span>
 								</div>
-								<h4><?php esc_html_e( 'Custom Palette', 'styler-for-woocommerce-bookings' ); ?></h4>
-								<p><?php esc_html_e( 'Fine-tune individual colors in the Colors tab.', 'styler-for-woocommerce-bookings' ); ?></p>
+								<h4><?php esc_html_e( 'Custom Palette', 'styler-for-woo' ); ?></h4>
+								<p><?php esc_html_e( 'Fine-tune individual colors in the Colors tab.', 'styler-for-woo' ); ?></p>
 							</div>
 						</label>
 					</div>
@@ -238,56 +238,56 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 				<!-- TAB 3: COLORS -->
 				<div class="wcbs-tab-pane" id="tab-colors">
-					<h3 class="wcbs-pane-heading"><?php esc_html_e( 'Custom Color Controls', 'styler-for-woocommerce-bookings' ); ?></h3>
+					<h3 class="wcbs-pane-heading"><?php esc_html_e( 'Custom Color Controls', 'styler-for-woo' ); ?></h3>
 
 					<div class="wcbs-color-section">
-						<h4><?php esc_html_e( 'Brand & Action Colors', 'styler-for-woocommerce-bookings' ); ?></h4>
+						<h4><?php esc_html_e( 'Brand & Action Colors', 'styler-for-woo' ); ?></h4>
 						<div class="wcbs-color-row">
-							<label for="primary_color"><?php esc_html_e( 'Primary Brand Color', 'styler-for-woocommerce-bookings' ); ?></label>
+							<label for="primary_color"><?php esc_html_e( 'Primary Brand Color', 'styler-for-woo' ); ?></label>
 							<input type="text" id="primary_color" name="primary_color" value="<?php echo esc_attr( $settings['primary_color'] ); ?>" class="wcbs-color-picker">
 						</div>
 						<div class="wcbs-color-row">
-							<label for="primary_hover"><?php esc_html_e( 'Primary Hover Color', 'styler-for-woocommerce-bookings' ); ?></label>
+							<label for="primary_hover"><?php esc_html_e( 'Primary Hover Color', 'styler-for-woo' ); ?></label>
 							<input type="text" id="primary_hover" name="primary_hover" value="<?php echo esc_attr( $settings['primary_hover'] ); ?>" class="wcbs-color-picker">
 						</div>
 						<div class="wcbs-color-row">
-							<label for="accent_color"><?php esc_html_e( 'Accent Highlight Color', 'styler-for-woocommerce-bookings' ); ?></label>
+							<label for="accent_color"><?php esc_html_e( 'Accent Highlight Color', 'styler-for-woo' ); ?></label>
 							<input type="text" id="accent_color" name="accent_color" value="<?php echo esc_attr( $settings['accent_color'] ); ?>" class="wcbs-color-picker">
 						</div>
 					</div>
 
 					<div class="wcbs-color-section">
-						<h4><?php esc_html_e( 'Calendar Colors', 'styler-for-woocommerce-bookings' ); ?></h4>
+						<h4><?php esc_html_e( 'Calendar Colors', 'styler-for-woo' ); ?></h4>
 						<div class="wcbs-color-row">
-							<label for="calendar_bg"><?php esc_html_e( 'Calendar Background', 'styler-for-woocommerce-bookings' ); ?></label>
+							<label for="calendar_bg"><?php esc_html_e( 'Calendar Background', 'styler-for-woo' ); ?></label>
 							<input type="text" id="calendar_bg" name="calendar_bg" value="<?php echo esc_attr( $settings['calendar_bg'] ); ?>" class="wcbs-color-picker">
 						</div>
 						<div class="wcbs-color-row">
-							<label for="calendar_header_bg"><?php esc_html_e( 'Calendar Header Background', 'styler-for-woocommerce-bookings' ); ?></label>
+							<label for="calendar_header_bg"><?php esc_html_e( 'Calendar Header Background', 'styler-for-woo' ); ?></label>
 							<input type="text" id="calendar_header_bg" name="calendar_header_bg" value="<?php echo esc_attr( $settings['calendar_header_bg'] ); ?>" class="wcbs-color-picker">
 						</div>
 						<div class="wcbs-color-row">
-							<label for="day_available_bg"><?php esc_html_e( 'Available Day Background', 'styler-for-woocommerce-bookings' ); ?></label>
+							<label for="day_available_bg"><?php esc_html_e( 'Available Day Background', 'styler-for-woo' ); ?></label>
 							<input type="text" id="day_available_bg" name="day_available_bg" value="<?php echo esc_attr( $settings['day_available_bg'] ); ?>" class="wcbs-color-picker">
 						</div>
 						<div class="wcbs-color-row">
-							<label for="day_selected_bg"><?php esc_html_e( 'Selected Day Background', 'styler-for-woocommerce-bookings' ); ?></label>
+							<label for="day_selected_bg"><?php esc_html_e( 'Selected Day Background', 'styler-for-woo' ); ?></label>
 							<input type="text" id="day_selected_bg" name="day_selected_bg" value="<?php echo esc_attr( $settings['day_selected_bg'] ); ?>" class="wcbs-color-picker">
 						</div>
 						<div class="wcbs-color-row">
-							<label for="day_booked_bg"><?php esc_html_e( 'Booked / Disabled Day', 'styler-for-woocommerce-bookings' ); ?></label>
+							<label for="day_booked_bg"><?php esc_html_e( 'Booked / Disabled Day', 'styler-for-woo' ); ?></label>
 							<input type="text" id="day_booked_bg" name="day_booked_bg" value="<?php echo esc_attr( $settings['day_booked_bg'] ); ?>" class="wcbs-color-picker">
 						</div>
 					</div>
 
 					<div class="wcbs-color-section">
-						<h4><?php esc_html_e( 'Time Slot Colors', 'styler-for-woocommerce-bookings' ); ?></h4>
+						<h4><?php esc_html_e( 'Time Slot Colors', 'styler-for-woo' ); ?></h4>
 						<div class="wcbs-color-row">
-							<label for="slot_bg"><?php esc_html_e( 'Slot Background', 'styler-for-woocommerce-bookings' ); ?></label>
+							<label for="slot_bg"><?php esc_html_e( 'Slot Background', 'styler-for-woo' ); ?></label>
 							<input type="text" id="slot_bg" name="slot_bg" value="<?php echo esc_attr( $settings['slot_bg'] ); ?>" class="wcbs-color-picker">
 						</div>
 						<div class="wcbs-color-row">
-							<label for="slot_selected_bg"><?php esc_html_e( 'Selected Slot Background', 'styler-for-woocommerce-bookings' ); ?></label>
+							<label for="slot_selected_bg"><?php esc_html_e( 'Selected Slot Background', 'styler-for-woo' ); ?></label>
 							<input type="text" id="slot_selected_bg" name="slot_selected_bg" value="<?php echo esc_attr( $settings['slot_selected_bg'] ); ?>" class="wcbs-color-picker">
 						</div>
 					</div>
@@ -295,36 +295,36 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 				<!-- TAB 4: STYLES & SHAPES -->
 				<div class="wcbs-tab-pane" id="tab-typography">
-					<h3 class="wcbs-pane-heading"><?php esc_html_e( 'Shapes, Typography & Spacing', 'styler-for-woocommerce-bookings' ); ?></h3>
+					<h3 class="wcbs-pane-heading"><?php esc_html_e( 'Shapes, Typography & Spacing', 'styler-for-woo' ); ?></h3>
 
 					<div class="wcbs-form-group">
-						<label><?php esc_html_e( 'Calendar Day Shape', 'styler-for-woocommerce-bookings' ); ?></label>
+						<label><?php esc_html_e( 'Calendar Day Shape', 'styler-for-woo' ); ?></label>
 						<div class="wcbs-shape-selector">
 							<label class="wcbs-shape-opt <?php echo 'circle' === $settings['day_shape'] ? 'active' : ''; ?>">
 								<input type="radio" name="day_shape" value="circle" <?php checked( $settings['day_shape'], 'circle' ); ?>>
 								<span class="shape-icon circle-icon">15</span>
-								<span><?php esc_html_e( 'Circle', 'styler-for-woocommerce-bookings' ); ?></span>
+								<span><?php esc_html_e( 'Circle', 'styler-for-woo' ); ?></span>
 							</label>
 							<label class="wcbs-shape-opt <?php echo 'rounded' === $settings['day_shape'] ? 'active' : ''; ?>">
 								<input type="radio" name="day_shape" value="rounded" <?php checked( $settings['day_shape'], 'rounded' ); ?>>
 								<span class="shape-icon rounded-icon">15</span>
-								<span><?php esc_html_e( 'Rounded', 'styler-for-woocommerce-bookings' ); ?></span>
+								<span><?php esc_html_e( 'Rounded', 'styler-for-woo' ); ?></span>
 							</label>
 							<label class="wcbs-shape-opt <?php echo 'pill' === $settings['day_shape'] ? 'active' : ''; ?>">
 								<input type="radio" name="day_shape" value="pill" <?php checked( $settings['day_shape'], 'pill' ); ?>>
 								<span class="shape-icon pill-icon">15</span>
-								<span><?php esc_html_e( 'Pill', 'styler-for-woocommerce-bookings' ); ?></span>
+								<span><?php esc_html_e( 'Pill', 'styler-for-woo' ); ?></span>
 							</label>
 							<label class="wcbs-shape-opt <?php echo 'square' === $settings['day_shape'] ? 'active' : ''; ?>">
 								<input type="radio" name="day_shape" value="square" <?php checked( $settings['day_shape'], 'square' ); ?>>
 								<span class="shape-icon square-icon">15</span>
-								<span><?php esc_html_e( 'Square', 'styler-for-woocommerce-bookings' ); ?></span>
+								<span><?php esc_html_e( 'Square', 'styler-for-woo' ); ?></span>
 							</label>
 						</div>
 					</div>
 
 					<div class="wcbs-form-group">
-						<label for="border_radius_base"><?php esc_html_e( 'Global Border Radius (px)', 'styler-for-woocommerce-bookings' ); ?></label>
+						<label for="border_radius_base"><?php esc_html_e( 'Global Border Radius (px)', 'styler-for-woo' ); ?></label>
 						<div class="wcbs-range-wrapper">
 							<input type="range" id="border_radius_base_range" min="0" max="30" value="<?php echo esc_attr( $settings['border_radius_base'] ); ?>" class="wcbs-range-slider">
 							<input type="number" id="border_radius_base" name="border_radius_base" min="0" max="30" value="<?php echo esc_attr( $settings['border_radius_base'] ); ?>" class="small-text">
@@ -332,29 +332,29 @@ if ( ! defined( 'ABSPATH' ) ) {
 					</div>
 
 					<div class="wcbs-form-group">
-						<label for="box_shadow_intensity"><?php esc_html_e( 'Box Shadow Elevation', 'styler-for-woocommerce-bookings' ); ?></label>
+						<label for="box_shadow_intensity"><?php esc_html_e( 'Box Shadow Elevation', 'styler-for-woo' ); ?></label>
 						<select id="box_shadow_intensity" name="box_shadow_intensity">
-							<option value="none" <?php selected( $settings['box_shadow_intensity'], 'none' ); ?>><?php esc_html_e( 'None (Flat)', 'styler-for-woocommerce-bookings' ); ?></option>
-							<option value="subtle" <?php selected( $settings['box_shadow_intensity'], 'subtle' ); ?>><?php esc_html_e( 'Subtle / Crisp', 'styler-for-woocommerce-bookings' ); ?></option>
-							<option value="medium" <?php selected( $settings['box_shadow_intensity'], 'medium' ); ?>><?php esc_html_e( 'Medium (Default)', 'styler-for-woocommerce-bookings' ); ?></option>
-							<option value="deep" <?php selected( $settings['box_shadow_intensity'], 'deep' ); ?>><?php esc_html_e( 'Deep Floating', 'styler-for-woocommerce-bookings' ); ?></option>
+							<option value="none" <?php selected( $settings['box_shadow_intensity'], 'none' ); ?>><?php esc_html_e( 'None (Flat)', 'styler-for-woo' ); ?></option>
+							<option value="subtle" <?php selected( $settings['box_shadow_intensity'], 'subtle' ); ?>><?php esc_html_e( 'Subtle / Crisp', 'styler-for-woo' ); ?></option>
+							<option value="medium" <?php selected( $settings['box_shadow_intensity'], 'medium' ); ?>><?php esc_html_e( 'Medium (Default)', 'styler-for-woo' ); ?></option>
+							<option value="deep" <?php selected( $settings['box_shadow_intensity'], 'deep' ); ?>><?php esc_html_e( 'Deep Floating', 'styler-for-woo' ); ?></option>
 						</select>
 					</div>
 
 					<div class="wcbs-form-group">
-						<label for="font_size_base"><?php esc_html_e( 'Base Font Size (px)', 'styler-for-woocommerce-bookings' ); ?></label>
+						<label for="font_size_base"><?php esc_html_e( 'Base Font Size (px)', 'styler-for-woo' ); ?></label>
 						<input type="number" id="font_size_base" name="font_size_base" min="12" max="20" value="<?php echo esc_attr( $settings['font_size_base'] ); ?>" class="small-text">
 					</div>
 				</div>
 
 				<!-- TAB 5: FEATURES & UX -->
 				<div class="wcbs-tab-pane" id="tab-features">
-					<h3 class="wcbs-pane-heading"><?php esc_html_e( 'Conversion & UX Features', 'styler-for-woocommerce-bookings' ); ?></h3>
+					<h3 class="wcbs-pane-heading"><?php esc_html_e( 'Conversion & UX Features', 'styler-for-woo' ); ?></h3>
 
 					<div class="wcbs-toggle-row">
 						<div>
-							<strong><?php esc_html_e( 'Staff / Resource Visual Cards', 'styler-for-woocommerce-bookings' ); ?></strong>
-							<p><?php esc_html_e( 'Converts standard dropdowns into avatar cards with photos and titles.', 'styler-for-woocommerce-bookings' ); ?></p>
+							<strong><?php esc_html_e( 'Staff / Resource Visual Cards', 'styler-for-woo' ); ?></strong>
+							<p><?php esc_html_e( 'Converts standard dropdowns into avatar cards with photos and titles.', 'styler-for-woo' ); ?></p>
 						</div>
 						<label class="wcbs-switch">
 							<input type="checkbox" name="enable_staff_cards" value="yes" <?php checked( $settings['enable_staff_cards'], 'yes' ); ?>>
@@ -364,8 +364,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 					<div class="wcbs-toggle-row">
 						<div>
-							<strong><?php esc_html_e( 'Time Slot Tab Grouping', 'styler-for-woocommerce-bookings' ); ?></strong>
-							<p><?php esc_html_e( 'Categorizes available time slots into Morning, Afternoon, and Evening tabs.', 'styler-for-woocommerce-bookings' ); ?></p>
+							<strong><?php esc_html_e( 'Time Slot Tab Grouping', 'styler-for-woo' ); ?></strong>
+							<p><?php esc_html_e( 'Categorizes available time slots into Morning, Afternoon, and Evening tabs.', 'styler-for-woo' ); ?></p>
 						</div>
 						<label class="wcbs-switch">
 							<input type="checkbox" name="enable_slot_tabs" value="yes" <?php checked( $settings['enable_slot_tabs'], 'yes' ); ?>>
@@ -374,18 +374,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 					</div>
 
 					<div class="wcbs-form-group" style="padding: 12px 0;">
-						<label for="slot_style"><?php esc_html_e( 'Time Slot Presentation Style', 'styler-for-woocommerce-bookings' ); ?></label>
+						<label for="slot_style"><?php esc_html_e( 'Time Slot Presentation Style', 'styler-for-woo' ); ?></label>
 						<select id="slot_style" name="slot_style">
-							<option value="chips" <?php selected( $settings['slot_style'], 'chips' ); ?>><?php esc_html_e( 'Interactive Chips / Pills (Recommended)', 'styler-for-woocommerce-bookings' ); ?></option>
-							<option value="grid" <?php selected( $settings['slot_style'], 'grid' ); ?>><?php esc_html_e( 'Uniform Grid', 'styler-for-woocommerce-bookings' ); ?></option>
-							<option value="list" <?php selected( $settings['slot_style'], 'list' ); ?>><?php esc_html_e( 'Vertical List', 'styler-for-woocommerce-bookings' ); ?></option>
+							<option value="chips" <?php selected( $settings['slot_style'], 'chips' ); ?>><?php esc_html_e( 'Interactive Chips / Pills (Recommended)', 'styler-for-woo' ); ?></option>
+							<option value="grid" <?php selected( $settings['slot_style'], 'grid' ); ?>><?php esc_html_e( 'Uniform Grid', 'styler-for-woo' ); ?></option>
+							<option value="list" <?php selected( $settings['slot_style'], 'list' ); ?>><?php esc_html_e( 'Vertical List', 'styler-for-woo' ); ?></option>
 						</select>
 					</div>
 
 					<div class="wcbs-toggle-row">
 						<div>
-							<strong><?php esc_html_e( 'Urgency Capacity Badges', 'styler-for-woocommerce-bookings' ); ?></strong>
-							<p><?php esc_html_e( 'Displays "Only X spots left!" badge when capacity is low.', 'styler-for-woocommerce-bookings' ); ?></p>
+							<strong><?php esc_html_e( 'Urgency Capacity Badges', 'styler-for-woo' ); ?></strong>
+							<p><?php esc_html_e( 'Displays "Only X spots left!" badge when capacity is low.', 'styler-for-woo' ); ?></p>
 						</div>
 						<label class="wcbs-switch">
 							<input type="checkbox" name="enable_urgency_badge" value="yes" <?php checked( $settings['enable_urgency_badge'], 'yes' ); ?>>
@@ -395,8 +395,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 					<div class="wcbs-toggle-row">
 						<div>
-							<strong><?php esc_html_e( 'Sticky Live Price Summary Card', 'styler-for-woocommerce-bookings' ); ?></strong>
-							<p><?php esc_html_e( 'Displays dynamic real-time price calculation and booking details card.', 'styler-for-woocommerce-bookings' ); ?></p>
+							<strong><?php esc_html_e( 'Sticky Live Price Summary Card', 'styler-for-woo' ); ?></strong>
+							<p><?php esc_html_e( 'Displays dynamic real-time price calculation and booking details card.', 'styler-for-woo' ); ?></p>
 						</div>
 						<label class="wcbs-switch">
 							<input type="checkbox" name="enable_live_summary" value="yes" <?php checked( $settings['enable_live_summary'], 'yes' ); ?>>
@@ -406,8 +406,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 					<div class="wcbs-toggle-row">
 						<div>
-							<strong><?php esc_html_e( 'Timezone Auto-Detector & Switcher', 'styler-for-woocommerce-bookings' ); ?></strong>
-							<p><?php esc_html_e( 'Shows slot times in customer local timezone.', 'styler-for-woocommerce-bookings' ); ?></p>
+							<strong><?php esc_html_e( 'Timezone Auto-Detector & Switcher', 'styler-for-woo' ); ?></strong>
+							<p><?php esc_html_e( 'Shows slot times in customer local timezone.', 'styler-for-woo' ); ?></p>
 						</div>
 						<label class="wcbs-switch">
 							<input type="checkbox" name="enable_timezone" value="yes" <?php checked( $settings['enable_timezone'], 'yes' ); ?>>
@@ -417,8 +417,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 					<div class="wcbs-toggle-row">
 						<div>
-							<strong><?php esc_html_e( 'Add to Personal Calendar Generator', 'styler-for-woocommerce-bookings' ); ?></strong>
-							<p><?php esc_html_e( 'Instant 1-click Google Calendar, Apple iCal, and Outlook links.', 'styler-for-woocommerce-bookings' ); ?></p>
+							<strong><?php esc_html_e( 'Add to Personal Calendar Generator', 'styler-for-woo' ); ?></strong>
+							<p><?php esc_html_e( 'Instant 1-click Google Calendar, Apple iCal, and Outlook links.', 'styler-for-woo' ); ?></p>
 						</div>
 						<label class="wcbs-switch">
 							<input type="checkbox" name="enable_calendar_sync" value="yes" <?php checked( $settings['enable_calendar_sync'], 'yes' ); ?>>
@@ -428,8 +428,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 					<div class="wcbs-toggle-row">
 						<div>
-							<strong><?php esc_html_e( 'Skeleton Shimmer Loading Animations', 'styler-for-woocommerce-bookings' ); ?></strong>
-							<p><?php esc_html_e( 'Smooth modern skeleton loaders during AJAX calculations.', 'styler-for-woocommerce-bookings' ); ?></p>
+							<strong><?php esc_html_e( 'Skeleton Shimmer Loading Animations', 'styler-for-woo' ); ?></strong>
+							<p><?php esc_html_e( 'Smooth modern skeleton loaders during AJAX calculations.', 'styler-for-woo' ); ?></p>
 						</div>
 						<label class="wcbs-switch">
 							<input type="checkbox" name="enable_skeleton" value="yes" <?php checked( $settings['enable_skeleton'], 'yes' ); ?>>
@@ -444,8 +444,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<!-- Right Interactive Live Preview Panel -->
 		<main class="wcbs-preview-stage">
 			<div class="wcbs-preview-toolbar">
-				<span class="wcbs-preview-label"><?php esc_html_e( 'Real-Time Interactive Preview', 'styler-for-woocommerce-bookings' ); ?></span>
-				<span class="wcbs-preview-status"><?php esc_html_e( 'Live Preview Connected', 'styler-for-woocommerce-bookings' ); ?></span>
+				<span class="wcbs-preview-label"><?php esc_html_e( 'Real-Time Interactive Preview', 'styler-for-woo' ); ?></span>
+				<span class="wcbs-preview-status"><?php esc_html_e( 'Live Preview Connected', 'styler-for-woo' ); ?></span>
 			</div>
 
 			<div class="wcbs-preview-wrapper" data-device="desktop">
@@ -483,12 +483,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 							<div class="wcbs-split-col-left wcbs-preview-col-left">
 								<div class="wcbs-col-header wcbs-split-only">
 									<span class="wcbs-col-step-tag">Step 1</span>
-									<h3 class="wcbs-col-title"><?php esc_html_e( 'Select Date', 'styler-for-woocommerce-bookings' ); ?></h3>
+									<h3 class="wcbs-col-title"><?php esc_html_e( 'Select Date', 'styler-for-woo' ); ?></h3>
 								</div>
 
 								<!-- Resource Cards Simulation -->
 								<div class="wcbs-resource-cards-section">
-									<label class="wcbs-section-label"><?php esc_html_e( 'Choose Specialist:', 'styler-for-woocommerce-bookings' ); ?></label>
+									<label class="wcbs-section-label"><?php esc_html_e( 'Choose Specialist:', 'styler-for-woo' ); ?></label>
 									<div class="wcbs-resource-grid">
 										<div class="wcbs-resource-card active">
 											<div class="wcbs-resource-avatar">
@@ -497,7 +497,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 											</div>
 											<div class="wcbs-resource-info">
 												<div class="wcbs-resource-name">Dr. Sophia Miller</div>
-												<div class="wcbs-resource-badge"><?php esc_html_e( 'Available', 'styler-for-woocommerce-bookings' ); ?></div>
+												<div class="wcbs-resource-badge"><?php esc_html_e( 'Available', 'styler-for-woo' ); ?></div>
 											</div>
 										</div>
 										<div class="wcbs-resource-card">
@@ -507,7 +507,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 											</div>
 											<div class="wcbs-resource-info">
 												<div class="wcbs-resource-name">Alex Laurent</div>
-												<div class="wcbs-resource-badge"><?php esc_html_e( 'Available', 'styler-for-woocommerce-bookings' ); ?></div>
+												<div class="wcbs-resource-badge"><?php esc_html_e( 'Available', 'styler-for-woo' ); ?></div>
 											</div>
 										</div>
 									</div>
@@ -567,7 +567,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							<div class="wcbs-split-col-right wcbs-preview-col-right">
 								<div class="wcbs-col-header wcbs-split-only">
 									<span class="wcbs-col-step-tag">Step 2</span>
-									<h3 class="wcbs-col-title"><?php esc_html_e( 'Select Time & Confirm', 'styler-for-woocommerce-bookings' ); ?></h3>
+									<h3 class="wcbs-col-title"><?php esc_html_e( 'Select Time & Confirm', 'styler-for-woo' ); ?></h3>
 								</div>
 
 								<!-- Slot Tabs Simulation -->
@@ -637,7 +637,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 								<!-- Submit Mockup -->
 								<div class="wcbs-submit-mockup">
 									<button type="button" class="button alt button-hero" style="width:100%; border-radius: var(--wcbs-radius);">
-										<?php esc_html_e( 'Book Appointment Now &rarr;', 'styler-for-woocommerce-bookings' ); ?>
+										<?php esc_html_e( 'Book Appointment Now &rarr;', 'styler-for-woo' ); ?>
 									</button>
 								</div>
 

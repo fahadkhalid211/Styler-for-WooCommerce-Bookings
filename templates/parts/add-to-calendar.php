@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * Add to Calendar Links Template Part.
  *
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<polyline points="17 21 17 13 7 13 7 21"></polyline>
 			<polyline points="7 3 7 8 15 8"></polyline>
 		</svg>
-		<span><?php esc_html_e( 'Sync to Personal Calendar:', 'styler-for-woocommerce-bookings' ); ?></span>
+		<span><?php esc_html_e( 'Sync to Personal Calendar:', 'styler-for-woo' ); ?></span>
 	</div>
 	<div class="wcbs-cal-buttons-group">
 		<a href="#" class="wcbs-cal-btn wcbs-cal-google" target="_blank" rel="noopener noreferrer">

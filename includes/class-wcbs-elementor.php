@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * Elementor Custom Widget for Styler for WooCommerce Bookings.
  *
@@ -16,7 +16,7 @@ class WCBS_Elementor_Widget extends \Elementor\Widget_Base {
 	}
 
 	public function get_title() {
-		return __( 'WooCommerce Booking Styler', 'styler-for-woocommerce-bookings' );
+		return __( 'WooCommerce Booking Styler', 'styler-for-woo' );
 	}
 
 	public function get_icon() {
@@ -31,12 +31,12 @@ class WCBS_Elementor_Widget extends \Elementor\Widget_Base {
 		$this->start_controls_section(
 			'section_content',
 			array(
-				'label' => __( 'Booking Form Settings', 'styler-for-woocommerce-bookings' ),
+				'label' => __( 'Booking Form Settings', 'styler-for-woo' ),
 			)
 		);
 
 		// Bookable products list.
-		$options = array( 'current' => __( '— Current Product (Single Product Page) —', 'styler-for-woocommerce-bookings' ) );
+		$options = array( 'current' => __( '— Current Product (Single Product Page) —', 'styler-for-woo' ) );
 		if ( function_exists( 'wc_get_products' ) ) {
 			$products = wc_get_products(
 				array(
@@ -53,7 +53,7 @@ class WCBS_Elementor_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'product_id',
 			array(
-				'label'   => __( 'Select Bookable Product', 'styler-for-woocommerce-bookings' ),
+				'label'   => __( 'Select Bookable Product', 'styler-for-woo' ),
 				'type'    => \Elementor\Controls_Manager::SELECT,
 				'options' => $options,
 				'default' => 'current',
@@ -63,16 +63,16 @@ class WCBS_Elementor_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'layout',
 			array(
-				'label'   => __( 'Booking Layout', 'styler-for-woocommerce-bookings' ),
+				'label'   => __( 'Booking Layout', 'styler-for-woo' ),
 				'type'    => \Elementor\Controls_Manager::SELECT,
 				'options' => array(
-					'default'      => __( 'Global Plugin Default', 'styler-for-woocommerce-bookings' ),
-					'split'        => __( 'Two-Column Split View', 'styler-for-woocommerce-bookings' ),
-					'wizard'       => __( 'Multi-Step Wizard Flow', 'styler-for-woocommerce-bookings' ),
-					'drawer'       => __( 'Slide-Over Drawer (Off-Canvas)', 'styler-for-woocommerce-bookings' ),
-					'modal'        => __( 'Popup Lightbox Modal', 'styler-for-woocommerce-bookings' ),
-					'bottom-sheet' => __( 'Mobile Bottom Sheet', 'styler-for-woocommerce-bookings' ),
-					'standard'     => __( 'Modern Standard Layout', 'styler-for-woocommerce-bookings' ),
+					'default'      => __( 'Global Plugin Default', 'styler-for-woo' ),
+					'split'        => __( 'Two-Column Split View', 'styler-for-woo' ),
+					'wizard'       => __( 'Multi-Step Wizard Flow', 'styler-for-woo' ),
+					'drawer'       => __( 'Slide-Over Drawer (Off-Canvas)', 'styler-for-woo' ),
+					'modal'        => __( 'Popup Lightbox Modal', 'styler-for-woo' ),
+					'bottom-sheet' => __( 'Mobile Bottom Sheet', 'styler-for-woo' ),
+					'standard'     => __( 'Modern Standard Layout', 'styler-for-woo' ),
 				),
 				'default' => 'default',
 			)
@@ -81,14 +81,14 @@ class WCBS_Elementor_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'theme',
 			array(
-				'label'   => __( 'Design Theme', 'styler-for-woocommerce-bookings' ),
+				'label'   => __( 'Design Theme', 'styler-for-woo' ),
 				'type'    => \Elementor\Controls_Manager::SELECT,
 				'options' => array(
-					'default' => __( 'Global Plugin Default', 'styler-for-woocommerce-bookings' ),
-					'clean'   => __( 'Clean Minimalist', 'styler-for-woocommerce-bookings' ),
-					'dark'    => __( 'Modern Dark', 'styler-for-woocommerce-bookings' ),
-					'luxury'  => __( 'Luxury & Spa', 'styler-for-woocommerce-bookings' ),
-					'vibrant' => __( 'Vibrant Modern', 'styler-for-woocommerce-bookings' ),
+					'default' => __( 'Global Plugin Default', 'styler-for-woo' ),
+					'clean'   => __( 'Clean Minimalist', 'styler-for-woo' ),
+					'dark'    => __( 'Modern Dark', 'styler-for-woo' ),
+					'luxury'  => __( 'Luxury & Spa', 'styler-for-woo' ),
+					'vibrant' => __( 'Vibrant Modern', 'styler-for-woo' ),
 				),
 				'default' => 'default',
 			)
@@ -112,7 +112,7 @@ class WCBS_Elementor_Widget extends \Elementor\Widget_Base {
 		if ( ! $product || ! is_a( $product, 'WC_Product_Booking' ) ) {
 			if ( \Elementor\Plugin::$instance->editor->is_edit_mode() ) {
 				echo '<div class="elementor-alert elementor-alert-info">';
-				esc_html_e( 'Please select a valid Bookable Product to preview the booking form.', 'styler-for-woocommerce-bookings' );
+				esc_html_e( 'Please select a valid Bookable Product to preview the booking form.', 'styler-for-woo' );
 				echo '</div>';
 			}
 			return;

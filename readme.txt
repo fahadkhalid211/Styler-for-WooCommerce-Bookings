@@ -1,4 +1,4 @@
-=== Styler for WooCommerce Bookings ===
+﻿=== Styler for WooCommerce Bookings ===
 Contributors: antigravity
 Tags: woocommerce, bookings, appointment, calendar, customizer, styling, booking form, elementor, gutenberg
 Requires at least: 5.8
@@ -57,7 +57,7 @@ This plugin is an extension and requires the following to be installed and activ
 
 == Installation ==
 
-1. Upload the `styler-for-woocommerce-bookings` folder to your `/wp-content/plugins/` directory (or upload the .zip file via **Plugins > Add New > Upload Plugin** in WordPress admin).
+1. Upload the `styler-for-woo` folder to your `/wp-content/plugins/` directory (or upload the .zip file via **Plugins > Add New > Upload Plugin** in WordPress admin).
 2. Activate the plugin through the **Plugins** screen in WordPress.
 3. Navigate to **Bookings > Booking Styler** in your WordPress admin menu to configure layouts, choose your design theme, and customize styles.
 4. View any bookable product on the frontend to experience the new layout!

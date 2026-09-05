@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * Gutenberg Block Integration for Styler for WooCommerce Bookings.
  *
@@ -65,7 +65,7 @@ class WCBS_Gutenberg {
 		}
 
 		if ( ! $product_id ) {
-			return '<div class="wcbs-block-notice">' . esc_html__( 'Please select a bookable product in block settings.', 'styler-for-woocommerce-bookings' ) . '</div>';
+			return '<div class="wcbs-block-notice">' . esc_html__( 'Please select a bookable product in block settings.', 'styler-for-woo' ) . '</div>';
 		}
 
 		return do_shortcode( sprintf( '[wc_booking_form product_id="%d" layout="%s" theme="%s"]', $product_id, esc_attr( $layout ), esc_attr( $theme ) ) );

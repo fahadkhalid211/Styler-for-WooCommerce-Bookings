@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * Resource / Staff Member Visual Cards Part.
  *
@@ -27,7 +27,7 @@ if ( empty( $resources ) ) {
 			<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
 			<circle cx="12" cy="7" r="4"></circle>
 		</svg>
-		<span><?php esc_html_e( 'Choose Professional / Resource:', 'styler-for-woocommerce-bookings' ); ?></span>
+		<span><?php esc_html_e( 'Choose Professional / Resource:', 'styler-for-woo' ); ?></span>
 	</label>
 
 	<div class="wcbs-resource-grid" role="radiogroup">
@@ -67,7 +67,7 @@ if ( empty( $resources ) ) {
 				</div>
 				<div class="wcbs-resource-info">
 					<div class="wcbs-resource-name"><?php echo esc_html( $res_name ); ?></div>
-					<div class="wcbs-resource-badge"><?php esc_html_e( 'Available', 'styler-for-woocommerce-bookings' ); ?></div>
+					<div class="wcbs-resource-badge"><?php esc_html_e( 'Available', 'styler-for-woo' ); ?></div>
 				</div>
 			</div>
 			<?php

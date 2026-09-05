@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * Settings and Option Management for Styler for WooCommerce Bookings.
  *
@@ -116,7 +116,7 @@ class WCBS_Settings {
 			'button_padding_x'     => 24,              // px
 
 			// Drawer / Modal triggers.
-			'drawer_button_text'   => __( 'Book Appointment', 'styler-for-woocommerce-bookings' ),
+			'drawer_button_text'   => __( 'Book Appointment', 'styler-for-woo' ),
 			'drawer_position'      => 'right',         // 'right', 'left'
 		);
 	}
@@ -129,7 +129,7 @@ class WCBS_Settings {
 	public static function get_presets() {
 		return array(
 			'clean'   => array(
-				'name'                 => __( 'Clean Minimalist (Default)', 'styler-for-woocommerce-bookings' ),
+				'name'                 => __( 'Clean Minimalist (Default)', 'styler-for-woo' ),
 				'primary_color'        => '#4f46e5',
 				'primary_hover'        => '#4338ca',
 				'accent_color'         => '#06b6d4',
@@ -155,7 +155,7 @@ class WCBS_Settings {
 				'border_radius_base'   => 12,
 			),
 			'dark'    => array(
-				'name'                 => __( 'Modern Dark', 'styler-for-woocommerce-bookings' ),
+				'name'                 => __( 'Modern Dark', 'styler-for-woo' ),
 				'primary_color'        => '#6366f1',
 				'primary_hover'        => '#4f46e5',
 				'accent_color'         => '#38bdf8',
@@ -181,7 +181,7 @@ class WCBS_Settings {
 				'border_radius_base'   => 10,
 			),
 			'luxury'  => array(
-				'name'                 => __( 'Luxury & Spa', 'styler-for-woocommerce-bookings' ),
+				'name'                 => __( 'Luxury & Spa', 'styler-for-woo' ),
 				'primary_color'        => '#b45309', // Warm amber / bronze
 				'primary_hover'        => '#92400e',
 				'accent_color'         => '#d97706',
@@ -207,7 +207,7 @@ class WCBS_Settings {
 				'border_radius_base'   => 8,
 			),
 			'vibrant' => array(
-				'name'                 => __( 'Vibrant Modern', 'styler-for-woocommerce-bookings' ),
+				'name'                 => __( 'Vibrant Modern', 'styler-for-woo' ),
 				'primary_color'        => '#ec4899', // Bold magenta / rose
 				'primary_hover'        => '#db2777',
 				'accent_color'         => '#8b5cf6',

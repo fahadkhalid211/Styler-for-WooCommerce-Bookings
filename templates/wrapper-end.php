@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * Booking Form Closing Wrapper Template.
  *
@@ -31,11 +31,11 @@ $enable_summary = 'yes' === $settings->get( 'enable_live_summary', 'yes' );
 				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 					<polyline points="15 18 9 12 15 6"></polyline>
 				</svg>
-				<span><?php esc_html_e( 'Back', 'styler-for-woocommerce-bookings' ); ?></span>
+				<span><?php esc_html_e( 'Back', 'styler-for-woo' ); ?></span>
 			</button>
 
 			<button type="button" class="wcbs-wizard-btn wcbs-wizard-next-btn button alt">
-				<span><?php esc_html_e( 'Continue', 'styler-for-woocommerce-bookings' ); ?></span>
+				<span><?php esc_html_e( 'Continue', 'styler-for-woo' ); ?></span>
 				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 					<polyline points="9 18 15 12 9 6"></polyline>
 				</svg>

@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * Admin Panel Controller for Styler for WooCommerce Bookings.
  *
@@ -55,8 +55,8 @@ class WCBS_Admin {
 
 		add_submenu_page(
 			$parent_slug,
-			__( 'Booking Styler & Layouts', 'styler-for-woocommerce-bookings' ),
-			__( 'Booking Styler', 'styler-for-woocommerce-bookings' ),
+			__( 'Booking Styler & Layouts', 'styler-for-woo' ),
+			__( 'Booking Styler', 'styler-for-woo' ),
 			'manage_options',
 			'wcbs-booking-styler',
 			array( $this, 'render_admin_page' )
@@ -98,11 +98,11 @@ class WCBS_Admin {
 				'settings' => $this->settings->get_all(),
 				'presets'  => WCBS_Settings::get_presets(),
 				'i18n'     => array(
-					'saved'      => __( 'Changes Saved Successfully!', 'styler-for-woocommerce-bookings' ),
-					'saving'     => __( 'Saving Changes...', 'styler-for-woocommerce-bookings' ),
-					'resetting'  => __( 'Resetting to Defaults...', 'styler-for-woocommerce-bookings' ),
-					'confirm_reset' => __( 'Are you sure you want to reset all customizer settings to factory defaults?', 'styler-for-woocommerce-bookings' ),
-					'error'      => __( 'Error saving settings. Please try again.', 'styler-for-woocommerce-bookings' ),
+					'saved'      => __( 'Changes Saved Successfully!', 'styler-for-woo' ),
+					'saving'     => __( 'Saving Changes...', 'styler-for-woo' ),
+					'resetting'  => __( 'Resetting to Defaults...', 'styler-for-woo' ),
+					'confirm_reset' => __( 'Are you sure you want to reset all customizer settings to factory defaults?', 'styler-for-woo' ),
+					'error'      => __( 'Error saving settings. Please try again.', 'styler-for-woo' ),
 				),
 			)
 		);

@@ -1,14 +1,14 @@
 <?php
 /**
  * Plugin Name: Styler for WooCommerce Bookings
- * Plugin URI:  https://github.com/woocommerce-bookings-addons/styler-for-woocommerce-bookings
+ * Plugin URI:  https://github.com/fahadkhalid211/Styler-for-WooCommerce-Bookings
  * Description: Transform WooCommerce Bookings with modern layout flows (Wizard, Split-View, Drawer, Modal, Bottom-Sheet), live visual customizer, designer themes, time slot grouping, staff cards, and live price breakdown.
  * Version:     1.0.8
  * Author:      Antigravity
  * Author URI:  https://wordpress.org
  * License:     GPL-2.0-or-later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain: styler-for-woocommerce-bookings
+ * Text Domain: styler-for-woo
  * Domain Path: /languages
  * Requires at least: 5.8
  * Requires PHP:      7.4
@@ -61,8 +61,8 @@ function wcbs_missing_woocommerce_notice() {
 	?>
 	<div class="notice notice-error is-dismissible">
 		<p>
-			<strong><?php esc_html_e( 'Styler for WooCommerce Bookings', 'styler-for-woocommerce-bookings' ); ?></strong>
-			<?php esc_html_e( 'requires WooCommerce to be installed and active.', 'styler-for-woocommerce-bookings' ); ?>
+			<strong><?php esc_html_e( 'Styler for WooCommerce Bookings', 'styler-for-woo' ); ?></strong>
+			<?php esc_html_e( 'requires WooCommerce to be installed and active.', 'styler-for-woo' ); ?>
 		</p>
 	</div>
 	<?php
@@ -78,11 +78,11 @@ function wcbs_missing_bookings_notice() {
 	?>
 	<div class="notice notice-warning is-dismissible">
 		<p>
-			<strong><?php esc_html_e( 'Styler for WooCommerce Bookings', 'styler-for-woocommerce-bookings' ); ?></strong>
+			<strong><?php esc_html_e( 'Styler for WooCommerce Bookings', 'styler-for-woo' ); ?></strong>
 			<?php
 			printf(
 				/* translators: %s: WooCommerce Bookings official link */
-				esc_html__( 'requires %s to be installed and active to power booking logic and availability calculations.', 'styler-for-woocommerce-bookings' ),
+				esc_html__( 'requires %s to be installed and active to power booking logic and availability calculations.', 'styler-for-woo' ),
 				'<a href="https://woocommerce.com/products/woocommerce-bookings/" target="_blank" rel="noopener noreferrer">WooCommerce Bookings</a>'
 			);
 			?>

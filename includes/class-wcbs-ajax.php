@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * AJAX Controller for Styler for WooCommerce Bookings.
  *
@@ -38,17 +38,17 @@ class WCBS_Ajax {
 		check_ajax_referer( 'wcbs_admin_nonce', 'nonce' );
 
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'styler-for-woocommerce-bookings' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'styler-for-woo' ) ) );
 		}
 
 		$raw_data = isset( $_POST['settings'] ) ? (array) $_POST['settings'] : array();
 		$success  = $this->settings->update( $raw_data );
 
 		if ( $success ) {
-			wp_send_json_success( array( 'message' => __( 'Settings successfully saved!', 'styler-for-woocommerce-bookings' ) ) );
+			wp_send_json_success( array( 'message' => __( 'Settings successfully saved!', 'styler-for-woo' ) ) );
 		} else {
 			// Even if settings were identical (update_option returns false), consider it success.
-			wp_send_json_success( array( 'message' => __( 'Settings up to date.', 'styler-for-woocommerce-bookings' ) ) );
+			wp_send_json_success( array( 'message' => __( 'Settings up to date.', 'styler-for-woo' ) ) );
 		}
 	}
 
@@ -59,7 +59,7 @@ class WCBS_Ajax {
 		check_ajax_referer( 'wcbs_admin_nonce', 'nonce' );
 
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'styler-for-woocommerce-bookings' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'styler-for-woo' ) ) );
 		}
 
 		$defaults = WCBS_Settings::get_defaults();
@@ -67,7 +67,7 @@ class WCBS_Ajax {
 
 		wp_send_json_success(
 			array(
-				'message'  => __( 'Settings reset to factory defaults.', 'styler-for-woocommerce-bookings' ),
+				'message'  => __( 'Settings reset to factory defaults.', 'styler-for-woo' ),
 				'defaults' => $defaults,
 			)
 		);

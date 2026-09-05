@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * Core Orchestrator Class for Styler for WooCommerce Bookings.
  *
@@ -129,7 +129,7 @@ class WCBS_Core {
 	 */
 	public function load_textdomain() {
 		load_plugin_textdomain(
-			'styler-for-woocommerce-bookings',
+			'styler-for-woo',
 			false,
 			dirname( WCBS_BASE_NAME ) . '/languages/'
 		);

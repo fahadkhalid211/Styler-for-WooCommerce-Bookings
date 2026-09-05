@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * Universal Shortcode Handler for Styler for WooCommerce Bookings.
  *
@@ -53,12 +53,12 @@ class WCBS_Shortcode {
 		}
 
 		if ( ! $product_id ) {
-			return '<p class="wcbs-error">' . esc_html__( 'Please specify a valid product_id for the booking form.', 'styler-for-woocommerce-bookings' ) . '</p>';
+			return '<p class="wcbs-error">' . esc_html__( 'Please specify a valid product_id for the booking form.', 'styler-for-woo' ) . '</p>';
 		}
 
 		$product = wc_get_product( $product_id );
 		if ( ! $product || ! is_a( $product, 'WC_Product_Booking' ) ) {
-			return '<p class="wcbs-error">' . esc_html__( 'Specified product is not a valid WooCommerce Bookable product.', 'styler-for-woocommerce-bookings' ) . '</p>';
+			return '<p class="wcbs-error">' . esc_html__( 'Specified product is not a valid WooCommerce Bookable product.', 'styler-for-woo' ) . '</p>';
 		}
 
 		// Save current global product.

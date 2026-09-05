@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * Frontend Controller for Styler for WooCommerce Bookings.
  *
@@ -144,19 +144,19 @@ class WCBS_Frontend {
 				'enable_calendar'   => $this->settings->get( 'enable_calendar_sync', 'yes' ),
 				'enable_skeleton'   => $this->settings->get( 'enable_skeleton', 'yes' ),
 				'i18n'              => array(
-					'step1'        => __( 'Service & Staff', 'styler-for-woocommerce-bookings' ),
-					'step2'        => __( 'Date & Time', 'styler-for-woocommerce-bookings' ),
-					'step3'        => __( 'Guests & Extras', 'styler-for-woocommerce-bookings' ),
-					'step4'        => __( 'Confirm & Book', 'styler-for-woocommerce-bookings' ),
-					'next'         => __( 'Continue', 'styler-for-woocommerce-bookings' ),
-					'prev'         => __( 'Back', 'styler-for-woocommerce-bookings' ),
-					'morning'      => __( 'Morning', 'styler-for-woocommerce-bookings' ),
-					'afternoon'    => __( 'Afternoon', 'styler-for-woocommerce-bookings' ),
-					'evening'      => __( 'Evening', 'styler-for-woocommerce-bookings' ),
-					'urgency_text' => __( 'Only %d spot left!', 'styler-for-woocommerce-bookings' ),
-					'spots_left'   => __( 'Only %d spots left!', 'styler-for-woocommerce-bookings' ),
-					'book_now'     => $this->settings->get( 'drawer_button_text', __( 'Book Appointment', 'styler-for-woocommerce-bookings' ) ),
-					'close'        => __( 'Close', 'styler-for-woocommerce-bookings' ),
+					'step1'        => __( 'Service & Staff', 'styler-for-woo' ),
+					'step2'        => __( 'Date & Time', 'styler-for-woo' ),
+					'step3'        => __( 'Guests & Extras', 'styler-for-woo' ),
+					'step4'        => __( 'Confirm & Book', 'styler-for-woo' ),
+					'next'         => __( 'Continue', 'styler-for-woo' ),
+					'prev'         => __( 'Back', 'styler-for-woo' ),
+					'morning'      => __( 'Morning', 'styler-for-woo' ),
+					'afternoon'    => __( 'Afternoon', 'styler-for-woo' ),
+					'evening'      => __( 'Evening', 'styler-for-woo' ),
+					'urgency_text' => __( 'Only %d spot left!', 'styler-for-woo' ),
+					'spots_left'   => __( 'Only %d spots left!', 'styler-for-woo' ),
+					'book_now'     => $this->settings->get( 'drawer_button_text', __( 'Book Appointment', 'styler-for-woo' ) ),
+					'close'        => __( 'Close', 'styler-for-woo' ),
 				),
 			)
 		);

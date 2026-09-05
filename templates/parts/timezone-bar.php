@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * Timezone Detection and Conversion Bar Part.
  *
@@ -16,15 +16,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<line x1="2" y1="12" x2="22" y2="12"></line>
 			<path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
 		</svg>
-		<span><?php esc_html_e( 'Displaying times in:', 'styler-for-woocommerce-bookings' ); ?></span>
-		<strong class="wcbs-current-timezone"><?php esc_html_e( 'Detecting timezone...', 'styler-for-woocommerce-bookings' ); ?></strong>
+		<span><?php esc_html_e( 'Displaying times in:', 'styler-for-woo' ); ?></span>
+		<strong class="wcbs-current-timezone"><?php esc_html_e( 'Detecting timezone...', 'styler-for-woo' ); ?></strong>
 	</div>
-	<button type="button" class="wcbs-timezone-change-btn" title="<?php esc_attr_e( 'Change timezone', 'styler-for-woocommerce-bookings' ); ?>">
-		<?php esc_html_e( 'Change', 'styler-for-woocommerce-bookings' ); ?>
+	<button type="button" class="wcbs-timezone-change-btn" title="<?php esc_attr_e( 'Change timezone', 'styler-for-woo' ); ?>">
+		<?php esc_html_e( 'Change', 'styler-for-woo' ); ?>
 	</button>
 	<div class="wcbs-timezone-dropdown" style="display:none;">
 		<select class="wcbs-timezone-select">
-			<option value="auto"><?php esc_html_e( 'Auto-detect local timezone', 'styler-for-woocommerce-bookings' ); ?></option>
+			<option value="auto"><?php esc_html_e( 'Auto-detect local timezone', 'styler-for-woo' ); ?></option>
 			<option value="UTC">UTC (GMT+0)</option>
 			<option value="America/New_York">Eastern Time (US & Canada)</option>
 			<option value="America/Chicago">Central Time (US & Canada)</option>

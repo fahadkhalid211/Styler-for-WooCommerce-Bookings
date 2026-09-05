@@ -19,7 +19,7 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: /public_html/wp-content/plugins/WooCommerce%20Bookings%20Addons
+          server-dir: /public_html/wp-content/plugins/styler-for-woo
           # If using SFTP (port 22) instead of standard FTP (port 21):
           # protocol: sftp
           # port: 22

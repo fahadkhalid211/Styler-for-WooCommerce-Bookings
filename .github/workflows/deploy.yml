@@ -18,8 +18,8 @@ jobs:
       - name: 📂 Sync files via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
+          server: 72.62.207.115
+          username: u460037536.royalblue-raccoon-912134.hostingersite.com
           password: ${{ secrets.FTP_PASSWORD }}
           server-dir: wp-content/plugins/styler-for-woo/
           exclude: |

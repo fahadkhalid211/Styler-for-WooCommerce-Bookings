@@ -3,7 +3,9 @@ name: Deploy Plugin to WordPress
 on:
   push:
     branches:
-      - main # or 'master' depending on your default branch
+      - main
+      - master
+  workflow_dispatch:
 
 jobs:
   web-deploy:
@@ -13,16 +15,13 @@ jobs:
       - name: 🚚 Get latest code
         uses: actions/checkout@v4
 
-      - name: 📂 Sync files via SFTP/FTP
+      - name: 📂 Sync files via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: /public_html/wp-content/plugins/styler-for-woo
-          # If using SFTP (port 22) instead of standard FTP (port 21):
-          # protocol: sftp
-          # port: 22
+          server-dir: wp-content/plugins/styler-for-woo/
           exclude: |
             **/.git*
             **/.git*/**

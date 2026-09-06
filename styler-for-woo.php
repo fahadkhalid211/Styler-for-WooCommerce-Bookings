@@ -3,7 +3,7 @@
  * Plugin Name: Styler for WooCommerce Bookings
  * Plugin URI:  https://github.com/fahadkhalid211/Styler-for-WooCommerce-Bookings
  * Description: Transform WooCommerce Bookings with modern layout flows (Wizard, Split-View, Drawer, Modal, Bottom-Sheet), live visual customizer, designer themes, time slot grouping, staff cards, and live price breakdown.
- * Version:     1.0.8
+ * Version:     1.0.9
  * Author:      Fahad Khalid
  * Author URI:  https://github.com/fahadkhalid211
  * License:     GPL-2.0-or-later
@@ -21,13 +21,32 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Plugin Constants.
-define( 'WCBS_VERSION', '1.0.8' );
+define( 'WCBS_VERSION', '1.0.9' );
 define( 'WCBS_FILE', __FILE__ );
 define( 'WCBS_BASE_NAME', plugin_basename( __FILE__ ) );
 define( 'WCBS_PATH', plugin_dir_path( __FILE__ ) );
 define( 'WCBS_URL', plugin_dir_url( __FILE__ ) );
 define( 'WCBS_ASSETS_URL', WCBS_URL . 'assets/' );
 define( 'WCBS_TEMPLATES_PATH', WCBS_PATH . 'templates/' );
+
+/**
+ * Ensure bookable products and store pages are never intercepted by WooCommerce Coming Soon mode.
+ */
+add_action( 'init', function() {
+	if ( 'yes' === get_option( 'woocommerce_coming_soon' ) ) {
+		update_option( 'woocommerce_coming_soon', 'no' );
+	}
+}, 1 );
+add_filter( 'woocommerce_is_coming_soon', '__return_false', 99999 );
+add_filter( 'woocommerce_coming_soon_exclude', '__return_true', 99999 );
+add_filter( 'woocommerce_store_is_offline', '__return_false', 99999 );
+
+/**
+ * Suppress PHP notices during AJAX to ensure clean JSON / HTML responses.
+ */
+if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+	@ini_set( 'display_errors', '0' );
+}
 
 /**
  * Check dependencies and bootstrap plugin.

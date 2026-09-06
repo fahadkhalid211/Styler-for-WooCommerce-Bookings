@@ -556,7 +556,7 @@
 			$menu.on('click', '.wcbs-custom-select-item', function(e) {
 				e.preventDefault();
 				e.stopPropagation();
-				var val = $(this).data('value');
+				var val = $(this).attr('data-value') !== undefined ? $(this).attr('data-value') : $(this).data('value');
 				$select.val(val).trigger('change').trigger('input');
 				self.syncCustomSelectOptions($select, $customContainer);
 				$customContainer.removeClass('wcbs-open wcbs-dropup');
@@ -610,14 +610,15 @@
 				$container.removeClass('wcbs-disabled');
 			}
 
-			var currentVal = $select.val();
+			var currentVal = $select.val() || '';
 			var selectedText = '';
 			var itemsHtml = '';
 
 			$select.find('option').each(function() {
 				var optVal = $(this).attr('value');
+				if (typeof optVal === 'undefined') optVal = $(this).val() || '';
 				var optText = $(this).text().trim();
-				var isSelected = (optVal === currentVal) || (!currentVal && $(this).is(':selected'));
+				var isSelected = (String(optVal) === String(currentVal)) || (!currentVal && $(this).is(':selected'));
 				if (isSelected) {
 					selectedText = optText;
 				}
@@ -625,7 +626,7 @@
 				var isPlaceholder = !optVal || optText.toLowerCase().indexOf('time') !== -1 || optText.toLowerCase().indexOf('choose') !== -1 || optText.toLowerCase().indexOf('select') !== -1;
 				var itemClass = 'wcbs-custom-select-item' + (isSelected ? ' wcbs-selected' : '') + (isPlaceholder ? ' wcbs-placeholder-item' : '');
 
-				itemsHtml += '<div class="' + itemClass + '" data-value="' + (optVal || '') + '" role="option" aria-selected="' + (isSelected ? 'true' : 'false') + '">' +
+				itemsHtml += '<div class="' + itemClass + '" data-value="' + optVal + '" role="option" aria-selected="' + (isSelected ? 'true' : 'false') + '">' +
 					'<span>' + optText + '</span>' +
 					(isSelected && !isPlaceholder ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' : '') +
 				'</div>';
@@ -1041,6 +1042,13 @@
 									if (code && code.trim() !== '') {
 										if (code.indexOf('<select') !== -1 || code.indexOf('wc_bookings_field_start_date') !== -1 || code.indexOf('wc_bookings_field_duration') !== -1) {
 											$('.wcbs-slots-holder ul.wcbs-slots-display').empty().addClass('wcbs-hidden').hide();
+											var $targetTime = $container.find('.wcbs-time-dropdowns-wrapper');
+											if ($targetTime.length && (!$targetTime.find('select').length || code.indexOf('<select') !== -1)) {
+												var $temp = $('<div>' + code + '</div>');
+												if ($temp.find('select').length && !$container.find('.wcbs-time-dropdown-field select').length) {
+													$targetTime.html(code);
+												}
+											}
 											self.syncDropdowns($container);
 										} else {
 											var $disp = $('.wcbs-slots-holder ul.wcbs-slots-display');
@@ -1148,6 +1156,13 @@
 							var resp = xhr.responseText.trim();
 							if (resp.indexOf('<select') !== -1 || resp.indexOf('wc_bookings_field_start_date') !== -1 || resp.indexOf('wc_bookings_field_duration') !== -1) {
 								$('.wcbs-slots-holder ul.wcbs-slots-display').empty().addClass('wcbs-hidden').hide();
+								var $targetTime = $container.find('.wcbs-time-dropdowns-wrapper');
+								if ($targetTime.length && (!$targetTime.find('select').length || resp.indexOf('<select') !== -1)) {
+									var $temp = $('<div>' + resp + '</div>');
+									if ($temp.find('select').length && !$container.find('.wcbs-time-dropdown-field select').length) {
+										$targetTime.html(resp);
+									}
+								}
 								self.syncDropdowns($container);
 							} else {
 								var $disp = $('.wcbs-slots-holder ul.wcbs-slots-display');

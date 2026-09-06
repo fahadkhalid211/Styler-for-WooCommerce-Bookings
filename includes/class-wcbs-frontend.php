@@ -29,12 +29,24 @@ class WCBS_Frontend {
 		// Enqueue scripts & styles.
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ), 25 );
 
+		// Ensure browsers and host caching proxies never serve stale cached HTML for booking pages.
+		add_action( 'template_redirect', array( $this, 'send_nocache_headers' ) );
+
 		// WooCommerce Booking Form Wrappers.
 		add_action( 'woocommerce_before_add_to_cart_form', array( $this, 'render_wrapper_start' ), 5 );
 		add_action( 'woocommerce_after_add_to_cart_form', array( $this, 'render_wrapper_end' ), 25 );
 
 		// Body class.
 		add_filter( 'body_class', array( $this, 'add_body_classes' ) );
+	}
+
+	/**
+	 * Send no-cache HTTP headers on bookable product pages.
+	 */
+	public function send_nocache_headers() {
+		if ( $this->is_booking_page() && ! is_admin() ) {
+			nocache_headers();
+		}
 	}
 
 	/**
@@ -103,7 +115,9 @@ class WCBS_Frontend {
 	 * Enqueue frontend CSS and JS assets.
 	 */
 	public function enqueue_assets() {
-		$ver = defined( 'WP_DEBUG' ) && WP_DEBUG ? time() : WCBS_VERSION;
+		// Cache-busting version: always append latest file modification time
+		$js_file = WCBS_PATH . 'assets/js/frontend-main.js';
+		$ver     = WCBS_VERSION . '.' . ( file_exists( $js_file ) ? filemtime( $js_file ) : time() );
 
 		// Enqueue styles.
 		wp_enqueue_style( 'wcbs-animations', WCBS_ASSETS_URL . 'css/animations.css', array(), $ver );

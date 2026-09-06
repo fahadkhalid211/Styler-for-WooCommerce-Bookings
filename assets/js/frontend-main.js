@@ -65,13 +65,6 @@
 				if (y && m && d) hasDate = true;
 				if (!hasDate) return;
 
-				// Trigger change directly on inputs/selects so native WooCommerce Bookings also calculates
-				$f.find('input.required_for_calculation, select').each(function() {
-					if ($(this).val()) {
-						$(this).trigger('change');
-					}
-				});
-
 				self.isCalculatingCosts = true;
 				$.ajax({
 					type: 'POST',
@@ -91,7 +84,7 @@
 						}
 					}
 				});
-			}, 200);
+			}, 150);
 		},
 
 		// Robust parser for WooCommerce Bookings cost responses (handles JSON objects, JSON strings, and HTML)
@@ -134,14 +127,28 @@
 			var $priceDisplay = $container.find('.wcbs-price-display');
 			var $bookBtn = $('button.single_add_to_cart_button, .single_add_to_cart_button, button.wc-bookings-booking-form-button');
 
-			if (isSuccess && (clean.indexOf('amount') !== -1 || clean.indexOf('$') !== -1 || clean.indexOf('£') !== -1 || clean.indexOf('€') !== -1 || /\d/.test(clean))) {
+			var hasPrice = clean.indexOf('amount') !== -1 ||
+			               clean.indexOf('woocommerce-Price-amount') !== -1 ||
+			               clean.indexOf('$') !== -1 ||
+			               clean.indexOf('£') !== -1 ||
+			               clean.indexOf('€') !== -1 ||
+			               clean.indexOf('¥') !== -1 ||
+			               clean.indexOf('₹') !== -1 ||
+			               clean.indexOf('&#36;') !== -1 ||
+			               clean.indexOf('&pound;') !== -1 ||
+			               clean.indexOf('&euro;') !== -1;
+
+			if (isSuccess && hasPrice) {
 				$costBox.html(clean).show();
 				// Strip leading "Total:" or "Booking Cost:" for the live summary card display
 				var displayPrice = clean.replace(/^Total:?\s*/i, '').replace(/^Booking Cost:?\s*/i, '');
 				$priceDisplay.html(displayPrice);
 				$bookBtn.prop('disabled', false).removeClass('disabled').removeAttr('disabled');
-			} else if (!isSuccess && clean.length > 0) {
-				$costBox.html(clean).show();
+			} else {
+				if (clean.length > 0) {
+					$costBox.html(clean).show();
+				}
+				$priceDisplay.html('&mdash;');
 				$bookBtn.prop('disabled', true).addClass('disabled');
 			}
 		},
@@ -454,6 +461,18 @@
 			}
 
 			// Central function to process selection and update calculations (debounced & non-recursive)
+			var parseTimeToMinutes = function(str) {
+				if (!str || typeof str !== 'string') return null;
+				str = str.trim().toLowerCase();
+				var match = str.match(/(\d{1,2}):(\d{2})/);
+				if (!match) return null;
+				var h = parseInt(match[1], 10);
+				var m = parseInt(match[2], 10);
+				if (str.indexOf('pm') !== -1 && h < 12) h += 12;
+				if (str.indexOf('am') !== -1 && h === 12) h = 0;
+				return h * 60 + m;
+			};
+
 			var onDropdownChanged = function() {
 				var $s = $startSelect.length ? $startSelect : $container.find('.wcbs-field-start-time select').first();
 				var $e = $endSelect.length ? $endSelect : $container.find('.wcbs-field-end-time select').first();
@@ -483,16 +502,10 @@
 				// Calculate numeric duration in units (e.g. hours) if eVal is a time string
 				var numericDuration = 1;
 				if (eVal) {
-					if (eVal.indexOf(':') !== -1 && sVal && sVal.indexOf(':') !== -1) {
-						var sP = sVal.split(':');
-						var eP = eVal.split(':');
-						var sMin = parseInt(sP[0], 10) * 60 + parseInt(sP[1], 10);
-						var eMin = parseInt(eP[0], 10) * 60 + parseInt(eP[1], 10);
-						var diffMin = eMin - sMin;
-						if (diffMin > 0) {
-							numericDuration = Math.round(diffMin / 60);
-							if (numericDuration < 1) numericDuration = 1;
-						}
+					var sMin = parseTimeToMinutes(sVal) || parseTimeToMinutes(sText);
+					var eMin = parseTimeToMinutes(eVal) || parseTimeToMinutes(eText);
+					if (sMin !== null && eMin !== null && eMin > sMin) {
+						numericDuration = Math.max(1, Math.round((eMin - sMin) / 60));
 					} else {
 						var parsed = parseInt(eVal, 10);
 						if (!isNaN(parsed) && parsed > 0) {
@@ -506,13 +519,16 @@
 					$container.find('input[name="wc_bookings_field_start_date_time"], input#wc_bookings_field_start_date, input.booking_date_time').val(sVal);
 				}
 				$container.find('input[name="wc_bookings_field_duration"], input.wc_bookings_field_duration').val(numericDuration);
-				$container.find('input[name="wc_bookings_field_end_date_time"], input#wc_bookings_field_end_date_time').val(eVal);
+				if (eVal) {
+					$container.find('input[name="wc_bookings_field_end_date_time"], input#wc_bookings_field_end_date_time').val(eVal);
+				}
 
-				// Trigger native form calculation directly on input/select elements
+				// Trigger native form calculation ONLY on duration hidden input and booking form
+				// NEVER trigger 'change' on $startSelect or generic selects, which resets $endSelect!
 				if (!self.isInternalSync) {
 					self.isInternalSync = true;
-					$container.find('input.required_for_calculation, select').trigger('change');
-					$('#wc-bookings-booking-form').trigger('change').trigger('wc_booking_form_changed');
+					$container.find('input[name="wc_bookings_field_duration"], input.wc_bookings_field_duration').trigger('change');
+					$('#wc-bookings-booking-form').trigger('wc_booking_form_changed');
 					setTimeout(function() {
 						self.isInternalSync = false;
 					}, 150);
@@ -1304,7 +1320,7 @@
 			}
 
 			// Also listen on WooCommerce custom booking events
-			$(document).on('date-selected wc_booking_form_changed change', function() {
+			$(document).on('date-selected wc_booking_form_changed', function() {
 				setTimeout(function() {
 					self.syncTimeSlots($container);
 					self.unblockCalendar($container);
@@ -1341,12 +1357,23 @@
 						var lower = clean.toLowerCase();
 						// Strictly reject fatal errors, database errors, or full HTML dumps
 						if (lower.indexOf('fatal error') === -1 && lower.indexOf('database') === -1 && lower.indexOf('wp-die') === -1 && lower.indexOf('operation not permitted') === -1 && lower.indexOf('<html') === -1) {
-							if (clean !== '' && clean !== '—') {
+							var hasPrice = clean.indexOf('amount') !== -1 ||
+							               clean.indexOf('woocommerce-Price-amount') !== -1 ||
+							               clean.indexOf('$') !== -1 ||
+							               clean.indexOf('£') !== -1 ||
+							               clean.indexOf('€') !== -1 ||
+							               clean.indexOf('¥') !== -1 ||
+							               clean.indexOf('₹') !== -1 ||
+							               clean.indexOf('&#36;') !== -1 ||
+							               clean.indexOf('&pound;') !== -1 ||
+							               clean.indexOf('&euro;') !== -1;
+
+							if (hasPrice) {
 								var displayPrice = clean.replace(/^Total:?\s*/i, '').replace(/^Booking Cost:?\s*/i, '');
 								$container.find('.wcbs-price-display').html(displayPrice);
-								if (clean.indexOf('amount') !== -1 || clean.indexOf('$') !== -1 || clean.indexOf('£') !== -1 || clean.indexOf('€') !== -1) {
-									$('button.single_add_to_cart_button, .single_add_to_cart_button, button.wc-bookings-booking-form-button').prop('disabled', false).removeClass('disabled').removeAttr('disabled');
-								}
+								$('button.single_add_to_cart_button, .single_add_to_cart_button, button.wc-bookings-booking-form-button').prop('disabled', false).removeClass('disabled').removeAttr('disabled');
+							} else if (lower.indexOf('required') !== -1 || lower.indexOf('choose') !== -1 || lower.indexOf('select') !== -1 || lower.indexOf('error') !== -1) {
+								$container.find('.wcbs-price-display').html('&mdash;');
 							}
 						}
 					}

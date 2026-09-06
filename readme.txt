@@ -4,7 +4,7 @@ Tags: woocommerce, bookings, appointment, calendar, customizer, styling, booking
 Requires at least: 5.8
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -74,6 +74,12 @@ Yes! In addition to global settings, each bookable product has a "Booking Styler
 Yes, it includes both an Elementor Widget and a Gutenberg Block.
 
 == Changelog ==
+
+= 1.1.3 =
+* Fix: Resolve end time dropdown selection and prevent premature reset during customer-defined duration selection.
+* Fix: Eliminate rapid recursive DOM rebuilds and event cascading on form updates.
+* Fix: Synchronize dynamic AJAX responses for get_end_time_html with sleek custom dropdown menus.
+* Fix: Robust calculation of booking totals and live summary duration display.
 
 = 1.0.0 =
 * Initial release.

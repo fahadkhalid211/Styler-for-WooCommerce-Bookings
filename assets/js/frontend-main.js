@@ -46,6 +46,18 @@
 			return $form.find('.wc-bookings-time-block-picker, .time-picker-fieldset, select[name*="time"], input[name*="time"], ul.block-picker, ul.blocks').length > 0;
 		},
 
+		parseTimeToMinutes: function(str) {
+			if (!str || typeof str !== 'string') return null;
+			str = str.trim().toLowerCase();
+			var match = str.match(/(\d{1,2}):(\d{2})/);
+			if (!match) return null;
+			var h = parseInt(match[1], 10);
+			var m = parseInt(match[2], 10);
+			if (str.indexOf('pm') !== -1 && h < 12) h += 12;
+			if (str.indexOf('am') !== -1 && h === 12) h = 0;
+			return h * 60 + m;
+		},
+
 		// Centralized safe & debounced cost calculation
 		triggerCostCalculation: function($container) {
 			var self = this;
@@ -55,36 +67,78 @@
 			self.calcTimer = setTimeout(function() {
 				var $f = $('form.cart, form.wc-bookings-booking-form, #wc-bookings-booking-form').first();
 				var ajaxUrl = (window.booking_form_params && booking_form_params.ajax_url) ? booking_form_params.ajax_url : ((typeof wcbs_params !== 'undefined') ? wcbs_params.ajax_url : '');
-				if (!ajaxUrl || !$f.length || self.isCalculatingCosts) return;
+				if (!ajaxUrl || !$f.length) return;
 
 				// Verify date fields are populated before calculating
-				var hasDate = false;
 				var y = $f.find('input[name*="start_date_year"]').val();
 				var m = $f.find('input[name*="start_date_month"]').val();
 				var d = $f.find('input[name*="start_date_day"]').val();
-				if (y && m && d) hasDate = true;
-				if (!hasDate) return;
+				if (!y || !m || !d) return;
 
-				self.isCalculatingCosts = true;
-				$.ajax({
+				// Show subtle "Calculating..." in price display if not already showing a valid price
+				var $priceDisplay = $container.find('.wcbs-price-display');
+				var currentPriceText = $priceDisplay.text().trim();
+				if (currentPriceText === '—' || currentPriceText === '') {
+					$priceDisplay.html('<span class="wcbs-calc-loading">Calculating...</span>');
+				}
+
+				// Abort previous in-flight calculation request so latest selection takes precedence immediately
+				if (self.currentCostXhr) {
+					try { self.currentCostXhr.abort(); } catch (e) {}
+					self.currentCostXhr = null;
+				}
+
+				// Build form parameters ensuring duration and start time are explicitly set
+				var formParams = $f.serializeArray();
+				var sVal = $container.find('.wcbs-field-start-time select, input[name="wc_bookings_field_start_date_time"]').first().val() || '';
+				var durVal = $container.find('input[name="wc_bookings_field_duration"], .wcbs-field-end-time select').first().val() || '1';
+
+				// Ensure numeric duration
+				var durNum = parseInt(durVal, 10);
+				if (isNaN(durNum) || durNum < 1) durNum = 1;
+
+				// Update or append wc_bookings_field_duration in serialized params
+				var foundDur = false;
+				var foundStart = false;
+				for (var i = 0; i < formParams.length; i++) {
+					if (formParams[i].name === 'wc_bookings_field_duration') {
+						formParams[i].value = durNum;
+						foundDur = true;
+					}
+					if (formParams[i].name === 'wc_bookings_field_start_date_time' && sVal) {
+						formParams[i].value = sVal;
+						foundStart = true;
+					}
+				}
+				if (!foundDur) {
+					formParams.push({ name: 'wc_bookings_field_duration', value: durNum });
+				}
+				if (!foundStart && sVal) {
+					formParams.push({ name: 'wc_bookings_field_start_date_time', value: sVal });
+				}
+
+				var serializedData = $.param(formParams);
+
+				self.currentCostXhr = $.ajax({
 					type: 'POST',
 					url: ajaxUrl,
 					data: {
 						action: 'wc_bookings_calculate_costs',
-						form: $f.serialize()
+						form: serializedData
 					},
 					success: function(resp) {
-						self.isCalculatingCosts = false;
+						self.currentCostXhr = null;
 						self.handleCostResponse(resp, $container);
 					},
-					error: function(xhr) {
-						self.isCalculatingCosts = false;
+					error: function(xhr, status) {
+						if (status === 'abort') return;
+						self.currentCostXhr = null;
 						if (xhr && xhr.responseText) {
 							self.handleCostResponse(xhr.responseText, $container);
 						}
 					}
 				});
-			}, 150);
+			}, 120);
 		},
 
 		// Robust parser for WooCommerce Bookings cost responses (handles JSON objects, JSON strings, and HTML)
@@ -460,50 +514,66 @@
 				wrapDropdown($endSelect, 'wcbs-field-end-time', 'Ends', 'wc_bookings_field_duration');
 			}
 
-			// Central function to process selection and update calculations (debounced & non-recursive)
-			var parseTimeToMinutes = function(str) {
-				if (!str || typeof str !== 'string') return null;
-				str = str.trim().toLowerCase();
-				var match = str.match(/(\d{1,2}):(\d{2})/);
-				if (!match) return null;
-				var h = parseInt(match[1], 10);
-				var m = parseInt(match[2], 10);
-				if (str.indexOf('pm') !== -1 && h < 12) h += 12;
-				if (str.indexOf('am') !== -1 && h === 12) h = 0;
-				return h * 60 + m;
-			};
+			self.onDropdownChanged($container);
 
-			var onDropdownChanged = function() {
-				var $s = $startSelect.length ? $startSelect : $container.find('.wcbs-field-start-time select').first();
-				var $e = $endSelect.length ? $endSelect : $container.find('.wcbs-field-end-time select').first();
+			// Bind change listener once
+			if (!$wrapper.data('wcbs-bound')) {
+				$wrapper.data('wcbs-bound', true);
+				$container.on('change input', '.wcbs-time-dropdowns-wrapper select, .wc-bookings-time-block-picker select', function() {
+					self.onDropdownChanged($container);
+				});
+			}
 
-				var sVal = $s.length ? ($s.val() || '') : '';
-				var eVal = $e.length ? ($e.val() || '') : '';
+			return true;
+		},
 
-				var sText = ($s.length && $s.find('option:selected').length) ? $s.find('option:selected').text().trim() : '';
-				var eText = ($e.length && $e.find('option:selected').length) ? $e.find('option:selected').text().trim() : '';
+		// Central function to process selection and update calculations
+		onDropdownChanged: function($container) {
+			var self = this;
+			if (!$container || !$container.length) $container = $('.wcbs-root-container');
 
-				// Update live summary
-				var summaryTime = '';
-				var isValidStart = sVal && sText.toLowerCase().indexOf('time') === -1 && sText.toLowerCase().indexOf('choose') === -1 && sText.toLowerCase().indexOf('select') === -1;
-				var isValidEnd   = eVal && eText.toLowerCase().indexOf('time') === -1 && eText.toLowerCase().indexOf('choose') === -1 && eText.toLowerCase().indexOf('select') === -1;
+			var $s = $container.find('.wcbs-field-start-time select, select[name*="start_date_time"]').first();
+			var $e = $container.find('.wcbs-field-end-time select, select[name="wc_bookings_field_duration"], select[id*="duration"]').first();
 
-				if (isValidStart && isValidEnd) {
-					summaryTime = sText + ' – ' + eText;
-				} else if (isValidStart) {
-					summaryTime = sText;
-				}
+			var sVal = $s.length ? ($s.val() || '') : '';
+			var eVal = $e.length ? ($e.val() || '') : '';
 
-				if (summaryTime) {
-					$container.find('.wcbs-val-time').text(summaryTime);
-					$container.find('.wcbs-summary-time').show();
-				}
+			// Read directly from custom select triggers for 100% fidelity
+			var sText = $container.find('.wcbs-field-start-time .wcbs-custom-select-value').text().trim();
+			var eText = $container.find('.wcbs-field-end-time .wcbs-custom-select-value').text().trim();
 
-				// Calculate numeric duration in units (e.g. hours) if eVal is a time string
-				var numericDuration = 1;
-				if (eVal) {
-					var sMin = parseTimeToMinutes(sVal) || parseTimeToMinutes(sText);
-					var eMin = parseTimeToMinutes(eVal) || parseTimeToMinutes(eText);
+			if (!sText && $s.length && $s[0].selectedIndex >= 0 && $s[0].options[$s[0].selectedIndex]) {
+				sText = $s[0].options[$s[0].selectedIndex].text.trim();
+			}
+			if (!eText && $e.length && $e[0].selectedIndex >= 0 && $e[0].options[$e[0].selectedIndex]) {
+				eText = $e[0].options[$e[0].selectedIndex].text.trim();
+			}
+
+			var isValidStart = sText && sText.toLowerCase().indexOf('time') === -1 && sText.toLowerCase().indexOf('choose') === -1 && sText.toLowerCase().indexOf('select') === -1;
+			var isValidEnd   = eText && eText.toLowerCase().indexOf('time') === -1 && eText.toLowerCase().indexOf('choose') === -1 && eText.toLowerCase().indexOf('select') === -1;
+
+			// Update live summary
+			var summaryTime = '';
+			if (isValidStart && isValidEnd) {
+				summaryTime = sText + ' – ' + eText;
+			} else if (isValidStart) {
+				summaryTime = sText;
+			}
+
+			if (summaryTime) {
+				$container.find('.wcbs-val-time').text(summaryTime);
+				$container.find('.wcbs-summary-time').show();
+			}
+
+			// Calculate numeric duration in units (e.g. hours)
+			var numericDuration = 1;
+			if (isValidEnd) {
+				var hourMatch = eText.match(/(\d+)\s*(?:hour|hr|unit)/i);
+				if (hourMatch && parseInt(hourMatch[1], 10) > 0) {
+					numericDuration = parseInt(hourMatch[1], 10);
+				} else {
+					var sMin = self.parseTimeToMinutes(sText) || self.parseTimeToMinutes(sVal);
+					var eMin = self.parseTimeToMinutes(eText) || self.parseTimeToMinutes(eVal);
 					if (sMin !== null && eMin !== null && eMin > sMin) {
 						numericDuration = Math.max(1, Math.round((eMin - sMin) / 60));
 					} else {
@@ -513,55 +583,47 @@
 						}
 					}
 				}
-
-				// Synchronize values into core hidden inputs
-				if (sVal) {
-					$container.find('input[name="wc_bookings_field_start_date_time"], input#wc_bookings_field_start_date, input.booking_date_time').val(sVal);
-				}
-				$container.find('input[name="wc_bookings_field_duration"], input.wc_bookings_field_duration').val(numericDuration);
-				if (eVal) {
-					$container.find('input[name="wc_bookings_field_end_date_time"], input#wc_bookings_field_end_date_time').val(eVal);
-				}
-
-				// Trigger native form calculation ONLY on duration hidden input and booking form
-				// NEVER trigger 'change' on $startSelect or generic selects, which resets $endSelect!
-				if (!self.isInternalSync) {
-					self.isInternalSync = true;
-					$container.find('input[name="wc_bookings_field_duration"], input.wc_bookings_field_duration').trigger('change');
-					$('#wc-bookings-booking-form').trigger('wc_booking_form_changed');
-					setTimeout(function() {
-						self.isInternalSync = false;
-					}, 150);
-				}
-
-				// Activate Book Now and calculate costs when requirements are met
-				var needsEnd = $e.length > 0;
-				var isComplete = isValidStart && (!needsEnd || isValidEnd);
-
-				if (isComplete) {
-					var $bookBtn = $('button.single_add_to_cart_button, .single_add_to_cart_button, button.wc-bookings-booking-form-button');
-					$bookBtn.prop('disabled', false).removeClass('disabled').removeAttr('disabled');
-					self.triggerCostCalculation($container);
-
-					if (window.WCBSCalendarSync && window.WCBSCalendarSync.update) {
-						var dateText = $container.find('.wcbs-val-date').text();
-						var prodTitle = $container.find('.wcbs-summary-title').text() || document.title;
-						window.WCBSCalendarSync.update({
-							title: prodTitle,
-							date: dateText,
-							time: summaryTime
-						});
-					}
-				}
-			};
-
-			// Bind change listener once
-			if (!$wrapper.data('wcbs-bound')) {
-				$wrapper.data('wcbs-bound', true);
-				$container.on('change input', '.wcbs-time-dropdowns-wrapper select, .wc-bookings-time-block-picker select', onDropdownChanged);
 			}
 
-			return true;
+			// Synchronize values into core hidden inputs
+			if (sVal) {
+				$container.find('input[name="wc_bookings_field_start_date_time"], input#wc_bookings_field_start_date, input.booking_date_time').val(sVal);
+			}
+			$container.find('input[name="wc_bookings_field_duration"], input.wc_bookings_field_duration').val(numericDuration);
+			if (eVal) {
+				$container.find('input[name="wc_bookings_field_end_date_time"], input#wc_bookings_field_end_date_time').val(eVal);
+			}
+
+			// Trigger native form calculation ONLY on duration hidden input and booking form
+			// NEVER trigger 'change' on $startSelect or generic selects, which resets $endSelect!
+			if (!self.isInternalSync) {
+				self.isInternalSync = true;
+				$container.find('input[name="wc_bookings_field_duration"], input.wc_bookings_field_duration').trigger('change');
+				$('#wc-bookings-booking-form').trigger('wc_booking_form_changed');
+				setTimeout(function() {
+					self.isInternalSync = false;
+				}, 150);
+			}
+
+			// Activate Book Now and calculate costs when requirements are met
+			var needsEnd = $container.find('.wcbs-field-end-time select, .wcbs-field-end-time').length > 0;
+			var isComplete = isValidStart && (!needsEnd || isValidEnd);
+
+			if (isComplete) {
+				var $bookBtn = $('button.single_add_to_cart_button, .single_add_to_cart_button, button.wc-bookings-booking-form-button');
+				$bookBtn.prop('disabled', false).removeClass('disabled').removeAttr('disabled');
+				self.triggerCostCalculation($container);
+
+				if (window.WCBSCalendarSync && window.WCBSCalendarSync.update) {
+					var dateText = $container.find('.wcbs-val-date').text();
+					var prodTitle = $container.find('.wcbs-summary-title').text() || document.title;
+					window.WCBSCalendarSync.update({
+						title: prodTitle,
+						date: dateText,
+						time: summaryTime
+					});
+				}
+			}
 		},
 
 		// 3b. Custom Sleek Dropdown Builder (accessible, beautiful floating menu)
@@ -658,11 +720,16 @@
 				$customContainer.removeClass('wcbs-open wcbs-dropup');
 				$trigger.attr('aria-expanded', 'false');
 				$menu.hide();
+
+				var $root = $customContainer.closest('.wcbs-root-container');
+				self.onDropdownChanged($root.length ? $root : $('.wcbs-root-container'));
 			});
 
 			// Re-sync when native select changes
-			$select.on('change', function() {
+			$select.off('change.wcbs_sync input.wcbs_sync').on('change.wcbs_sync input.wcbs_sync', function() {
 				self.syncCustomSelectOptions($select, $customContainer);
+				var $root = $customContainer.closest('.wcbs-root-container');
+				self.onDropdownChanged($root.length ? $root : $('.wcbs-root-container'));
 			});
 
 			// Observe dynamic option mutations (e.g. WooCommerce Bookings updates options or disabled state)

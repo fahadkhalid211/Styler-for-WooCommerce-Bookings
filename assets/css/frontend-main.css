@@ -1183,6 +1183,13 @@ form.cart select:focus {
 	color: var(--wcbs-primary, #4f46e5);
 }
 
+.wcbs-calc-loading {
+	font-size: 13px !important;
+	font-weight: 500 !important;
+	color: var(--wcbs-text-muted, #64748b) !important;
+	opacity: 0.8 !important;
+}
+
 .wcbs-summary-guarantee {
 	display: flex;
 	align-items: center;

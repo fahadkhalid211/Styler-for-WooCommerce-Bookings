@@ -55,36 +55,95 @@
 			self.calcTimer = setTimeout(function() {
 				var $f = $('form.cart, form.wc-bookings-booking-form, #wc-bookings-booking-form').first();
 				var ajaxUrl = (window.booking_form_params && booking_form_params.ajax_url) ? booking_form_params.ajax_url : ((typeof wcbs_params !== 'undefined') ? wcbs_params.ajax_url : '');
-				if (ajaxUrl && $f.length && !self.isCalculatingCosts) {
-					self.isCalculatingCosts = true;
-					$.ajax({
-						type: 'POST',
-						url: ajaxUrl,
-						data: {
-							action: 'wc_bookings_calculate_costs',
-							form: $f.serialize()
-						},
-						success: function(resp) {
-							self.isCalculatingCosts = false;
-							if (resp && typeof resp === 'string') {
-								var clean = resp.trim();
-								var lower = clean.toLowerCase();
-								// Strictly reject error pages, database errors, or full HTML dumps
-								if (lower.indexOf('error') === -1 && lower.indexOf('database') === -1 && lower.indexOf('wp-die') === -1 && lower.indexOf('operation not permitted') === -1 && lower.indexOf('<html') === -1) {
-									$('.wc-bookings-booking-cost').html(clean).show();
-									$container.find('.wcbs-price-display').html(clean);
-									if (clean.indexOf('amount') !== -1 || clean.indexOf('$') !== -1 || clean.indexOf('£') !== -1 || clean.indexOf('€') !== -1) {
-										$('button.single_add_to_cart_button, .single_add_to_cart_button, button.wc-bookings-booking-form-button').prop('disabled', false).removeClass('disabled').removeAttr('disabled');
-									}
-								}
-							}
-						},
-						error: function() {
-							self.isCalculatingCosts = false;
+				if (!ajaxUrl || !$f.length || self.isCalculatingCosts) return;
+
+				// Verify date fields are populated before calculating
+				var hasDate = false;
+				var y = $f.find('input[name*="start_date_year"]').val();
+				var m = $f.find('input[name*="start_date_month"]').val();
+				var d = $f.find('input[name*="start_date_day"]').val();
+				if (y && m && d) hasDate = true;
+				if (!hasDate) return;
+
+				// Trigger change directly on inputs/selects so native WooCommerce Bookings also calculates
+				$f.find('input.required_for_calculation, select').each(function() {
+					if ($(this).val()) {
+						$(this).trigger('change');
+					}
+				});
+
+				self.isCalculatingCosts = true;
+				$.ajax({
+					type: 'POST',
+					url: ajaxUrl,
+					data: {
+						action: 'wc_bookings_calculate_costs',
+						form: $f.serialize()
+					},
+					success: function(resp) {
+						self.isCalculatingCosts = false;
+						self.handleCostResponse(resp, $container);
+					},
+					error: function(xhr) {
+						self.isCalculatingCosts = false;
+						if (xhr && xhr.responseText) {
+							self.handleCostResponse(xhr.responseText, $container);
 						}
-					});
+					}
+				});
+			}, 200);
+		},
+
+		// Robust parser for WooCommerce Bookings cost responses (handles JSON objects, JSON strings, and HTML)
+		handleCostResponse: function(resp, $container) {
+			if (!resp) return;
+			if (!$container || !$container.length) $container = $('.wcbs-root-container');
+
+			var costHtml = '';
+			var isSuccess = true;
+
+			if (typeof resp === 'object') {
+				if (resp.result === 'ERROR') {
+					isSuccess = false;
 				}
-			}, 250);
+				costHtml = resp.html || resp.message || '';
+			} else if (typeof resp === 'string') {
+				try {
+					var parsed = JSON.parse(resp);
+					if (parsed && typeof parsed === 'object') {
+						if (parsed.result === 'ERROR') isSuccess = false;
+						costHtml = parsed.html || parsed.message || '';
+					} else {
+						costHtml = resp;
+					}
+				} catch (e) {
+					costHtml = resp;
+				}
+			}
+
+			if (!costHtml || typeof costHtml !== 'string') return;
+			var clean = costHtml.trim();
+			var lower = clean.toLowerCase();
+
+			// Strictly reject fatal errors, database errors, or full HTML dumps
+			if (lower.indexOf('fatal error') !== -1 || lower.indexOf('database') !== -1 || lower.indexOf('wp-die') !== -1 || lower.indexOf('operation not permitted') !== -1 || lower.indexOf('<html') !== -1) {
+				return;
+			}
+
+			var $costBox = $('.wc-bookings-booking-cost');
+			var $priceDisplay = $container.find('.wcbs-price-display');
+			var $bookBtn = $('button.single_add_to_cart_button, .single_add_to_cart_button, button.wc-bookings-booking-form-button');
+
+			if (isSuccess && (clean.indexOf('amount') !== -1 || clean.indexOf('$') !== -1 || clean.indexOf('£') !== -1 || clean.indexOf('€') !== -1 || /\d/.test(clean))) {
+				$costBox.html(clean).show();
+				// Strip leading "Total:" or "Booking Cost:" for the live summary card display
+				var displayPrice = clean.replace(/^Total:?\s*/i, '').replace(/^Booking Cost:?\s*/i, '');
+				$priceDisplay.html(displayPrice);
+				$bookBtn.prop('disabled', false).removeClass('disabled').removeAttr('disabled');
+			} else if (!isSuccess && clean.length > 0) {
+				$costBox.html(clean).show();
+				$bookBtn.prop('disabled', true).addClass('disabled');
+			}
 		},
 
 		// 1. Two-Column Split Layout Architecture
@@ -421,18 +480,39 @@
 					$container.find('.wcbs-summary-time').show();
 				}
 
+				// Calculate numeric duration in units (e.g. hours) if eVal is a time string
+				var numericDuration = 1;
+				if (eVal) {
+					if (eVal.indexOf(':') !== -1 && sVal && sVal.indexOf(':') !== -1) {
+						var sP = sVal.split(':');
+						var eP = eVal.split(':');
+						var sMin = parseInt(sP[0], 10) * 60 + parseInt(sP[1], 10);
+						var eMin = parseInt(eP[0], 10) * 60 + parseInt(eP[1], 10);
+						var diffMin = eMin - sMin;
+						if (diffMin > 0) {
+							numericDuration = Math.round(diffMin / 60);
+							if (numericDuration < 1) numericDuration = 1;
+						}
+					} else {
+						var parsed = parseInt(eVal, 10);
+						if (!isNaN(parsed) && parsed > 0) {
+							numericDuration = parsed;
+						}
+					}
+				}
+
 				// Synchronize values into core hidden inputs
 				if (sVal) {
 					$container.find('input[name="wc_bookings_field_start_date_time"], input#wc_bookings_field_start_date, input.booking_date_time').val(sVal);
 				}
-				if (eVal) {
-					$container.find('input[name="wc_bookings_field_duration"], input.wc_bookings_field_duration').val(eVal);
-				}
+				$container.find('input[name="wc_bookings_field_duration"], input.wc_bookings_field_duration').val(numericDuration);
+				$container.find('input[name="wc_bookings_field_end_date_time"], input#wc_bookings_field_end_date_time').val(eVal);
 
-				// Trigger native form calculation without causing recursive event loops
+				// Trigger native form calculation directly on input/select elements
 				if (!self.isInternalSync) {
 					self.isInternalSync = true;
-					$('#wc-bookings-booking-form').trigger('change');
+					$container.find('input.required_for_calculation, select').trigger('change');
+					$('#wc-bookings-booking-form').trigger('change').trigger('wc_booking_form_changed');
 					setTimeout(function() {
 						self.isInternalSync = false;
 					}, 150);
@@ -961,9 +1041,9 @@
 				var isTimeBased = self.isTimeBasedProduct($container);
 
 				// Immediately update hidden input values with full valid year, month, day
-				$('input[name="wc_bookings_field_start_date_year"], input.booking_date_year').val(dt.year);
-				$('input[name="wc_bookings_field_start_date_month"], input.booking_date_month').val(dt.month);
-				$('input[name="wc_bookings_field_start_date_day"], input.booking_date_day').val(dt.day);
+				$('input[name="wc_bookings_field_start_date_year"], input.booking_date_year').val(dt.yearVal || dt.year);
+				$('input[name="wc_bookings_field_start_date_month"], input.booking_date_month').val(dt.monthVal || dt.month);
+				$('input[name="wc_bookings_field_start_date_day"], input.booking_date_day').val(dt.dayVal || dt.day);
 				$('input[name="wc_bookings_field_start_date"]').val(dt.fdate);
 
 				// Update live summary card
@@ -1005,9 +1085,9 @@
 
 				// Dispatch triggers to WooCommerce Bookings
 				var dispatchTriggers = function() {
-					$('input[name="wc_bookings_field_start_date_day"], input.booking_date_day').val(dt.day).trigger('change').trigger('input');
-					$('input[name="wc_bookings_field_start_date_month"], input.booking_date_month').val(dt.month).trigger('change').trigger('input');
-					$('input[name="wc_bookings_field_start_date_year"], input.booking_date_year').val(dt.year).trigger('change').trigger('input');
+					$('input[name="wc_bookings_field_start_date_day"], input.booking_date_day').val(dt.dayVal || dt.day).trigger('change').trigger('input');
+					$('input[name="wc_bookings_field_start_date_month"], input.booking_date_month').val(dt.monthVal || dt.month).trigger('change').trigger('input');
+					$('input[name="wc_bookings_field_start_date_year"], input.booking_date_year').val(dt.yearVal || dt.year).trigger('change').trigger('input');
 					$('input[name="wc_bookings_field_start_date"]').val(dt.fdate).trigger('change').trigger('input');
 
 					var $pickerWrapper = $('.wc-bookings-date-picker, fieldset.wc-bookings-date-picker');
@@ -1151,6 +1231,11 @@
 			// Global jQuery AJAX completion hook
 			$(document).ajaxComplete(function(event, xhr, settings) {
 				if (settings && settings.data && typeof settings.data === 'string') {
+					if (settings.data.indexOf('wc_bookings_calculate_costs') !== -1) {
+						if (xhr.responseText) {
+							self.handleCostResponse(xhr.responseText, $container);
+						}
+					}
 					if (settings.data.indexOf('wc_bookings_get_blocks') !== -1 || settings.data.indexOf('get_blocks') !== -1) {
 						if (xhr.responseText && xhr.responseText.trim() !== '') {
 							var resp = xhr.responseText.trim();
@@ -1246,6 +1331,7 @@
 
 		// 8. Synchronize Cost Calculations with Live Summary Card
 		observeCostCalculations: function($container) {
+			var self = this;
 			var safeUpdatePrice = function() {
 				var costEl = $('.wc-bookings-booking-cost')[0];
 				if (costEl) {
@@ -1253,18 +1339,28 @@
 					if (raw && typeof raw === 'string') {
 						var clean = raw.trim();
 						var lower = clean.toLowerCase();
-						// Strictly reject error pages, database errors, or full HTML dumps
-						if (lower.indexOf('error') === -1 && lower.indexOf('database') === -1 && lower.indexOf('wp-die') === -1 && lower.indexOf('operation not permitted') === -1 && lower.indexOf('<html') === -1) {
-							if (clean !== '') {
-								$container.find('.wcbs-price-display').html(clean);
+						// Strictly reject fatal errors, database errors, or full HTML dumps
+						if (lower.indexOf('fatal error') === -1 && lower.indexOf('database') === -1 && lower.indexOf('wp-die') === -1 && lower.indexOf('operation not permitted') === -1 && lower.indexOf('<html') === -1) {
+							if (clean !== '' && clean !== '—') {
+								var displayPrice = clean.replace(/^Total:?\s*/i, '').replace(/^Booking Cost:?\s*/i, '');
+								$container.find('.wcbs-price-display').html(displayPrice);
 								if (clean.indexOf('amount') !== -1 || clean.indexOf('$') !== -1 || clean.indexOf('£') !== -1 || clean.indexOf('€') !== -1) {
-									$('button.single_add_to_cart_button, .single_add_to_cart_button').prop('disabled', false).removeClass('disabled').removeAttr('disabled');
+									$('button.single_add_to_cart_button, .single_add_to_cart_button, button.wc-bookings-booking-form-button').prop('disabled', false).removeClass('disabled').removeAttr('disabled');
 								}
 							}
 						}
 					}
 				}
 			};
+
+			// Observe DOM mutations on .wc-bookings-booking-cost
+			var costNode = $('.wc-bookings-booking-cost')[0];
+			if (window.MutationObserver && costNode) {
+				var observer = new MutationObserver(function() {
+					safeUpdatePrice();
+				});
+				observer.observe(costNode, { childList: true, subtree: true, characterData: true });
+			}
 
 			$(document).on('change ajaxComplete wc_booking_form_changed', safeUpdatePrice);
 			safeUpdatePrice();
